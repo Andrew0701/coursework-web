@@ -1,2 +1,2 @@
-# web-coursework
+# coursework-web
 Курсовой проект по дисциплине "Web технологии".
