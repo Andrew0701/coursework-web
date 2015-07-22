@@ -1,7 +1,54 @@
-header {
-	position: relative;
+html, body {
 	width: 100%;
-	height: 10%;
-	border: 1px solid black;
+	height: 100%;
+	margin: 0px;
+}
+
+.wrapper {
+	width: 100%;
+	height: 100%;
+}
+
+header {
+	width: 100%;
+	height: 50px;
+
 	text-align: center;
+
+	background-color: #eee;
+}
+
+nav {
+	width: 100%;
+	height: 100%;
+
+	float: left;
+
+	background-color: #ddd;
+}
+
+nav ul li{
+	display: inline;
+}
+
+main {
+	width: 100%;
+	height: 90%;
+
+	text-align: center;
+	float: left;
+
+	background-color: #ccc;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+
+	text-align: center;
+
+	width: 100%;
+	height: 30px;
+
+	background-color: #bbb;
 }

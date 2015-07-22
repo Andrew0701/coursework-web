@@ -1,21 +1,33 @@
+{% load staticfiles %}
 <!doctype html>
 <html>
 	<head>
-		<!--link href="{% static 'home/styles.css' %}" rel="stylesheet"-->
+		<link href="{% static 'home/styles.css' %}" rel="stylesheet">
 	</head>
 
 	<body>
-		<header>
-			header
-		</header>
-		<nav>
-			menu
-		</nav>
-		<main>
-			main
-		</main>
-		<footer>
-			footer
-		</footer>
+		<div class='wrapper'>
+			<header>
+				{% block header %}
+					<nav>
+						{% block menu %}
+							<ul>
+								<li>[Пункт меню 1]</li>
+								<li>[Пункт меню 2]</li>
+								<li>[Пункт меню 3]</li>
+							</ul>
+						{% endblock %}
+					</nav>
+				{% endblock %}
+			</header>
+			<main>
+				{% block main %}
+				{% endblock %}
+			</main>
+			<footer>
+				{% block footer %}
+				{% endblock %}
+			</footer>
+		</div>
 	</body>
 </html>
