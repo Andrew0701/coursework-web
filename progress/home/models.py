@@ -15,10 +15,18 @@ class Job(models.Model):
 	def __str__(self):
 		return self.name
 
+class Group(models.Model):
+	group = models.CharField(max_length=5)
+	course = models.IntegerField()
+	
+	def __str__(self):
+		return self.group
+
 class Student(models.Model):
 	name = models.CharField(max_length=100)
 	patronymic = models.CharField(max_length=100)
 	surname = models.CharField(max_length=100)
+	group = models.ForeignKey(Group,null=True)
 
 	subjects = models.ManyToManyField(Subject)
 	jobs = models.ManyToManyField(Job, through='Log')

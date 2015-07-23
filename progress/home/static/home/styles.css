@@ -16,7 +16,6 @@ html, body {
 header {
 	width: 100%;
 	height: 50px;
-	background-color: #eee;
 }
 
 #logo {
@@ -37,7 +36,6 @@ nav {
 	margin: 0px;
 
 	text-align: center;
-	background-color: #ddd;
 }
 
 nav ul {
@@ -55,8 +53,6 @@ main {
 
 	text-align: center;
 	float: left;
-
-	background-color: #ccc;
 }
 
 footer {
@@ -68,6 +64,14 @@ footer {
 	width: 70%;
 	min-width: 800px;
 	height: 30px;
+}
 
-	background-color: #bbb;
+input, select {
+	margin-top: 10px;
+	/*margin-bottom: 5px;*/
+}
+
+.error {
+	font-size: 14px;
+	color: red;
 }
