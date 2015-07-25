@@ -1,0 +1,90 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-26 00:35+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: templates/home/base.html:20
+msgid "Пункт меню 1"
+msgstr "Menu item 1"
+
+#: templates/home/base.html:21
+msgid "Пункт меню 2"
+msgstr "Menu item 2"
+
+#: templates/home/base.html:22
+msgid "Пункт меню 3"
+msgstr "Menu item 3"
+
+#: templates/home/base.html:23
+msgid "Пункт меню 4"
+msgstr "Menu item 4"
+
+#: templates/home/base.html:24
+msgid "Пункт меню 5"
+msgstr "Menu item 5"
+
+#: templates/home/base.html:25
+msgid "Пункт меню 6"
+msgstr "Menu item 6"
+
+#: templates/home/base.html:37
+msgid "Выберите язык"
+msgstr "Choose language"
+
+#: templates/home/base.html:51
+msgid "Ок"
+msgstr "Ok"
+
+#: templates/home/reg.html:15
+msgid "Логин"
+msgstr "Login"
+
+#: templates/home/reg.html:16
+msgid "E-mail"
+msgstr "E-mail"
+
+#: templates/home/reg.html:17
+msgid "Фамилия"
+msgstr "Surname"
+
+#: templates/home/reg.html:18
+msgid "Имя"
+msgstr "Name"
+
+#: templates/home/reg.html:19
+msgid "Отчество"
+msgstr "Patronymic"
+
+#: templates/home/reg.html:21
+msgid "Курс"
+msgstr "Course"
+
+#: templates/home/reg.html:27
+msgid "Группа"
+msgstr "Group"
+
+#: templates/home/reg.html:33
+msgid "Пароль"
+msgstr "Password"
+
+#: templates/home/reg.html:34
+msgid "Повторить пароль"
+msgstr "Repeat password"
+
+#: templates/home/reg.html:35
+msgid "Зарегистрироваться"
+msgstr "Sign up"
