@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Subject(models.Model):
 	name = models.CharField(max_length = 100)
@@ -23,6 +24,7 @@ class Group(models.Model):
 		return self.group
 
 class Student(models.Model):
+	user = models.OneToOneField(User,null=True)
 	name = models.CharField(max_length=100)
 	patronymic = models.CharField(max_length=100)
 	surname = models.CharField(max_length=100)
@@ -45,6 +47,7 @@ class Log(models.Model):
 		return str(student) + ' ' + str(job)
 
 class Teacher(models.Model):
+	user = models.OneToOneField(User,null=True)
 	name = models.CharField(max_length=100)
 	patronymic = models.CharField(max_length=100)
 	surname = models.CharField(max_length=100)

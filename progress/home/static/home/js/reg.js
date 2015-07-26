@@ -16,3 +16,12 @@ function loadGroupsFrom(link) {
 		success: makeGroupSelect
 	})
 }
+
+function formVisibilityToggle(formName,otherForm){
+	$(`input[value=${formName}]`).change(function(){
+		if ($(this).is(':checked')) {
+			$(`form#${formName}`).show();
+			$(`form#${otherForm}`).hide();
+		}
+	})
+}

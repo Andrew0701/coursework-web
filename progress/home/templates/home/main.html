@@ -1,0 +1,16 @@
+{% extends 'home/base.html' %}
+
+{% block title %} Progress {% endblock %}
+
+{% block main %}
+	{% if error_message %}
+		<span class='error'> {{error_message}} </span>
+	{% else %}
+		{% if request.user.is_authenticated %}
+			{{ user.username }} <br>
+			<span>Главная страница</span>
+		{% else %}
+			<span>Вы анонимный пользователь</span>
+		{% endif %}
+	{% endif %}
+{% endblock %}

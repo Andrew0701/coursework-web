@@ -1,0 +1,14 @@
+{% extends 'home/base.html' %}
+
+{% block title %} Войти {% endblock %}
+
+{% block main %}
+	<span>Вход в систему</span>
+	<br>
+	<form action="{% url 'home:login' %}" method="POST">
+		{% csrf_token %}
+		<input type="text"		name='login' 	placeholder='Логин'>	<br>
+		<input type="password"	name='password' placeholder='Пароль'>	<br>
+		<input type="submit" value='Войти'>
+	</form>
+{% endblock %}
