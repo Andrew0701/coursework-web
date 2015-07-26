@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group as UsersGroup
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
-from  .models import Group, Student
+from  .models import Group, Student, Teacher
 import json
 
 # Create your views here.
@@ -12,6 +12,7 @@ def main(request):
 	return render(request,'home/main.html',locals())
 	
 def reg(request):
+	#пользователь изменил курс (значение выпадающего списка)
 	if request.is_ajax() and request.method=='GET':
 		requestedCourse = request.GET['course']
 		groups_objects = Group.objects.filter(course=requestedCourse)
@@ -19,6 +20,7 @@ def reg(request):
 
 		return HttpResponse(json.dumps(groups), content_type='application/json' )
 
+	#регистрация пользователя
 	elif request.method=='POST':
 
 		user = User.objects.create_user(
@@ -29,19 +31,32 @@ def reg(request):
 			last_name = request.POST['surname']
 		)
 
-		UsersGroup.objects.get(name='Students').user_set.add(user)
+		if request.POST['user_type'] == 'student':
+			UsersGroup.objects.get(name='Students').user_set.add(user)
 
-		student = Student.objects.create(
-			user = user,
-			name = request.POST['name'],
-			surname = request.POST['surname'],
-			patronymic = request.POST['patronymic'],
-			group = Group.objects.get(group=request.POST['group'])
-		)
+			Student.objects.create(
+				user = user,
+				name = request.POST['name'],
+				surname = request.POST['surname'],
+				patronymic = request.POST['patronymic'],
+				group = Group.objects.get(group=request.POST['group'])
+			)
+
+		elif request.POST['user_type'] == 'teacher':
+
+			UsersGroup.objects.get(name='Teachers').user_set.add(user)
+
+			Teacher.objects.create(
+				user = user,
+				name = request.POST['name'],
+				surname = request.POST['surname'],
+				patronymic = request.POST['patronymic']
+			)
 
 		return render(request,'home/reg-success.html')
 		
 	else:
+		#запрос формы регистрации
 		courses_set = set( Group.objects.values_list('course',flat=True) )
 		context = {
 			'courses':sorted(list(courses_set))

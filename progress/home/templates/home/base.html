@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load staticfiles %}
 <!doctype html>
 <html>
@@ -20,10 +21,10 @@
 								<li>[Пункт меню 2]</li>
 								<li>[Пункт меню 3]</li>
 								{% if request.user.is_authenticated %}
-									<li><a href="{% url 'home:logout' %}">Выйти</a></li>
+									<li><a href="{% url 'home:logout' %}">{% trans "Выйти" %}</a></li>
 								{% else %}
-									<li><a href="{% url 'home:login' %}">Войти</a></li>
-									<li><a href="{% url 'home:reg' %}">Регистрация</a></li>
+									<li><a href="{% url 'home:login' %}">{% trans "Войти" %}</a></li>
+									<li><a href="{% url 'home:reg' %}">{% trans "Регистрация" %}</a></li>
 								{% endif %}
 							</ul>
 						{% endblock %}
@@ -36,6 +37,22 @@
 			</main>
 			<footer>
 				{% block footer %}
+				<span>{% trans "Выберите язык" %}:</span>
+				<form id='language' action="{% url 'set_language' %}" method="post">
+				{% csrf_token %}
+				    <input name="next" type="hidden" value="{{ redirect_to }}" />
+				    <select name="language" onchange="this.form.submit()">
+						{% get_current_language as LANGUAGE_CODE %}
+				        {% get_available_languages as LANGUAGES %}
+				        {% get_language_info_list for LANGUAGES as languages %}			        
+				        {% for language in languages %}
+			            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
+			                {{ language.name_local }} ({{ language.code }})
+			            </option>
+				        {% endfor %}
+				    </select>
+				    {# <input type="submit" value="{% trans "Ок" %}" /> #}
+				</form>
 				{% endblock %}
 			</footer>
 		</div>

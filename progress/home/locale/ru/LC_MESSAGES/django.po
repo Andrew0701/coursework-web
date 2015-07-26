@@ -1,0 +1,102 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-26 19:16+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: home/templates/home/base.html:24
+msgid "Выйти"
+msgstr ""
+
+#: home/templates/home/base.html:26 home/templates/home/login.html:4
+#: home/templates/home/login.html.py:13
+msgid "Войти"
+msgstr ""
+
+#: home/templates/home/base.html:27 home/templates/home/reg.html:5
+#: home/templates/home/reg.html.py:13
+msgid "Регистрация"
+msgstr ""
+
+#: home/templates/home/base.html:40
+msgid "Выберите язык"
+msgstr ""
+
+#: home/templates/home/login.html:7
+msgid "Вход в систему"
+msgstr ""
+
+#: home/templates/home/login.html:11 home/templates/home/reg-student.html:5
+#: home/templates/home/reg-teacher.html:5
+msgid "Логин"
+msgstr ""
+
+#: home/templates/home/login.html:12 home/templates/home/reg-student.html:22
+#: home/templates/home/reg-teacher.html:10
+msgid "Пароль"
+msgstr ""
+
+#: home/templates/home/main.html:13
+msgid "Вы - аноним"
+msgstr ""
+
+#: home/templates/home/reg-student.html:6
+#: home/templates/home/reg-teacher.html:6
+msgid "E-mail"
+msgstr ""
+
+#: home/templates/home/reg-student.html:7
+#: home/templates/home/reg-teacher.html:7
+msgid "Фамилия"
+msgstr ""
+
+#: home/templates/home/reg-student.html:8
+#: home/templates/home/reg-teacher.html:8
+msgid "Имя"
+msgstr ""
+
+#: home/templates/home/reg-student.html:9
+#: home/templates/home/reg-teacher.html:9
+msgid "Отчество"
+msgstr ""
+
+#: home/templates/home/reg-student.html:11
+msgid "Курс"
+msgstr ""
+
+#: home/templates/home/reg-student.html:17
+msgid "Группа"
+msgstr ""
+
+#: home/templates/home/reg-student.html:23
+#: home/templates/home/reg-teacher.html:11
+msgid "Повторить пароль"
+msgstr ""
+
+#: home/templates/home/reg-student.html:25
+#: home/templates/home/reg-teacher.html:13
+msgid "Зарегистрироваться"
+msgstr ""
+
+#: home/templates/home/reg.html:15
+msgid "Студент"
+msgstr ""
+
+#: home/templates/home/reg.html:17
+msgid "Преподаватель"
+msgstr ""

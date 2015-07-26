@@ -1,5 +1,5 @@
 {% extends 'home/base.html' %}
-
+{% load i18n %}
 {% block title %} Progress {% endblock %}
 
 {% block main %}
@@ -10,7 +10,7 @@
 			{{ user.username }} <br>
 			<span>Главная страница</span>
 		{% else %}
-			<span>Вы анонимный пользователь</span>
+			<span>{% trans "Вы - аноним" %}</span>
 		{% endif %}
 	{% endif %}
 {% endblock %}

@@ -102,3 +102,7 @@ span {
 	color: #0061a1;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
+
+form#language {
+	display: inline;
+}

@@ -1,7 +1,8 @@
 {% extends 'home/base.html' %}
+{% load i18n %}
 {% load staticfiles %}
 
-{% block title %} Регистрация {% endblock %}
+{% block title %} {% trans "Регистрация" %} {% endblock %}
 
 {% block scripts %}
 	<script src="{% static "home/js/reg.js" %}"></script>
@@ -9,11 +10,11 @@
 {% endblock %}
 
 {% block main %}
-	<span> Регистрация </span>
+	<span> {% trans "Регистрация" %} </span>
 		<form>
-			<span>Студент:</span>
+			<span>{% trans "Студент" %}</span>
 			<input type='radio' name='who' value='student' checked='true'>
-			<span>Преподаватель</span>
+			<span>{% trans "Преподаватель" %}</span>
 			<input type='radio'	name='who' value='teacher'">
 		</form>
 
