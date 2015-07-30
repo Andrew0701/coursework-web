@@ -75,8 +75,17 @@ input, select {
 }
 
 .error {
+	position: absolute;
+	padding: 10px;
 	font-size: 14px;
 	color: red;
+}
+
+.success {
+	position: absolute;
+	padding: 10px;
+	font-size: 14px;
+	color: green;
 }
 
 form#teacher {

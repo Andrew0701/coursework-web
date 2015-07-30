@@ -1,26 +1,41 @@
 {% load i18n %}
 
 <form id='student' action="{% url 'home:reg' %}" method="POST">
-		{% csrf_token %}
-			<input type="text" name="login"		placeholder="{% trans "Логин" %}">		<br>
-			<input type="email"name="email"		placeholder="{% trans "E-mail" %}">		<br>
-			<input type="text" name="surname"	placeholder="{% trans "Фамилия" %}">	<br>
-			<input type="text" name="name"		placeholder="{% trans "Имя" %}">		<br>
-			<input type="text" name="patronymic"placeholder="{% trans "Отчество" %}">	<br>
+	{% csrf_token %}
+		<input type="text" name="login"		placeholder="{% trans "Логин" %}"
+			oninput='validateLogin($(this))'>
+		<br>
+		<input type="email"name="email"		placeholder="{% trans "E-mail" %}"
+			oninput='validateEmail($(this))'>
+		<br>
+		<input type="text" name="surname"	placeholder="{% trans "Фамилия" %}"
+			oninput='validateWord($(this))'>
+		<br>
+		<input type="text" name="name"		placeholder="{% trans "Имя" %}"
+			oninput='validateWord($(this))'>
+		<br>
+		<input type="text" name="patronymic"placeholder="{% trans "Отчество" %}"
+			oninput='validateWord($(this))'>
+		<br>
 
-			<span>{% trans "Курс" %}:</span>
-			<select id="course" name="course" onchange="loadGroupsFrom({% url 'home:reg' %})">
-				{% for course in courses %}
-					<option value="{{course}}">{{course}}</option>
-				{% endfor %}
-			</select>
-			<span>{% trans "Группа" %}:</span>
-			<select id="group" name="group">
-				<script>loadGroupsFrom({% url 'home:reg' %})</script>
-			</select>
-			<br>
-			<input type="password" placeholder="{% trans "Пароль" %}" name="password">	<br>
-			<input type="password" placeholder="{% trans "Повторить пароль" %}">		<br>
-			<input type="hidden" name="user_type" value="student">
-			<input type="submit" value="{% trans "Зарегистрироваться" %}">
-	</form>
+		<span>{% trans "Курс" %}:</span>
+		<select id="course" name="course" onchange="loadGroupsFrom({% url 'home:reg' %})">
+			{% for course in courses %}
+				<option value="{{course}}">{{course}}</option>
+			{% endfor %}
+		</select>
+		<span>{% trans "Группа" %}:</span>
+		<select id="group" name="group">
+			<script>loadGroupsFrom({% url 'home:reg' %})</script>
+		</select>
+		<br>
+		<input type="password" placeholder="{% trans "Пароль" %}" name="password"
+			id="student"
+			oninput='validatePassword($(this))'>
+		<br>
+		<input type="password" placeholder="{% trans "Повторить пароль" %}"
+			oninput='validatePasswordConfirmation($(this),"student")'>
+		<br>
+		<input type="hidden" name="user_type" value="student">
+		<input type="submit" value="{% trans "Зарегистрироваться" %}">
+</form>

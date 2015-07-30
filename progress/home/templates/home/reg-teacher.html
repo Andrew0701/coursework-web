@@ -2,13 +2,28 @@
 
 <form id='teacher' action="{% url 'home:reg' %}" method="POST">
 		{% csrf_token %}
-			<input type="text" name="login"		placeholder="{% trans "Логин" %}">		<br>
-			<input type="email"name="email"		placeholder="{% trans "E-mail" %}">		<br>
-			<input type="text" name="surname"	placeholder="{% trans "Фамилия" %}">	<br>
-			<input type="text" name="name"		placeholder="{% trans "Имя" %}">		<br>
-			<input type="text" name="patronymic"placeholder="{% trans "Отчество" %}">	<br>
-			<input type="password" name="password" placeholder="{% trans "Пароль" %}">	<br>
-			<input type="password" placeholder="{% trans "Повторить пароль" %}">		<br>
+			<input type="text" name="login"		placeholder="{% trans "Логин" %}"
+				oninput='validateLogin($(this))'>
+			<br>
+			<input type="email"name="email"		placeholder="{% trans "E-mail" %}"
+				oninput='validateEmail($(this))'>
+			<br>
+			<input type="text" name="surname"	placeholder="{% trans "Фамилия" %}"
+				oninput='validateWord($(this))'>
+			<br>
+			<input type="text" name="name"		placeholder="{% trans "Имя" %}"
+				oninput='validateWord($(this))'>
+			<br>
+			<input type="text" name="patronymic"placeholder="{% trans "Отчество" %}"
+				oninput='validateWord($(this))'>
+			<br>
+			<input type="password" name="password" placeholder="{% trans "Пароль" %}"
+				id="teacher"
+				oninput='validatePassword($(this))'>
+			<br>
+			<input type="password" placeholder="{% trans "Повторить пароль" %}"
+				oninput='validatePasswordConfirmation($(this),"teacher")'>
+			<br>
 			<input type="hidden" name="user_type" value="teacher">
 			<input type="submit" value="{% trans "Зарегистрироваться" %}">
 	</form>
