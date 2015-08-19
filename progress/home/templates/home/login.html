@@ -4,6 +4,10 @@
 {% block title %} {% trans "Войти" %} {% endblock %}
 
 {% block main %}
+	<script>
+		$('main').css('text-align', 'center');
+	</script>
+
 	<span>{% trans "Вход в систему" %}</span>
 	<br>
 	<form action="{% url 'home:login' %}" method="POST">

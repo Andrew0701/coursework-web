@@ -19,11 +19,15 @@
 					<nav>
 						{% block menu %}
 							<ul>
-								<li>[Пункт меню 1]</li>
+								<li><a href="{% url 'home:main' %}">{% trans "Главная" %}</a></li>
 								<li>[Пункт меню 2]</li>
 								<li>[Пункт меню 3]</li>
 								{% if request.user.is_authenticated %}
-									<li><a href="{% url 'home:logout' %}">{% trans "Выйти" %}</a></li>
+									<li><a href="{% url 'home:logout' %}">
+											{% trans "Выйти" %}
+											<sub>[{{request.user.username}}]</sub>
+										</a>
+									</li>
 								{% else %}
 									<li><a href="{% url 'home:login' %}">{% trans "Войти" %}</a></li>
 									<li><a href="{% url 'home:reg' %}">{% trans "Регистрация" %}</a></li>

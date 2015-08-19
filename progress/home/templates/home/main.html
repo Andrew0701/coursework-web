@@ -1,16 +1,21 @@
 {% extends 'home/base.html' %}
 {% load i18n %}
+{% load filters %}
 {% block title %} Progress {% endblock %}
 
 {% block main %}
 	{% if error_message %}
 		<span class='error'> {{error_message}} </span>
 	{% else %}
-		{% if request.user.is_authenticated %}
-			{{ user.username }} <br>
-			<span>Главная страница</span>
-		{% else %}
-			<span>{% trans "Вы - аноним" %}</span>
+
+		{% if isUserStudent %}
+			{% block student %}{% endblock %}
+
+		{% elif isUserTeacher %}
+			{% block teacher %}{% endblock %}
+			
 		{% endif %}
-	{% endif %}
+
+	{% endif %} {#error message#}
+
 {% endblock %}

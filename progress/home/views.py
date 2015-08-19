@@ -4,8 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group as UsersGroup
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
-from  .models import Group, Student, Teacher
+from django import template
+from  .models import Group, Student, Teacher, Student_Subject
 import json
+
+#making available filters in templates
+register = template.Library()
 
 # Create your views here.
 def main(request):
@@ -50,7 +54,7 @@ def reg(request):
 				user = user,
 				name = request.POST['name'],
 				surname = request.POST['surname'],
-				patronymic = request.POST['patronymic']
+				patronymic = request.POST['patronymic'],
 			)
 
 		return render(request,'home/reg-success.html')
@@ -91,3 +95,27 @@ def log_in(request):
 def log_out(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('home:main'))
+
+def main(request):
+	user = request.user
+	subjects = None
+	jobs = []
+
+	isUserStudent = user.groups.filter(name='Students').exists()
+	isUserTeacher = user.groups.filter(name='Teachers').exists()
+
+	if isUserStudent:
+		subjects = user.student.subjects.all()
+		for subject in subjects:
+			for job in subject.job_set.all():
+				jobs.append( job )
+
+	if isUserTeacher:
+		subjects = user.teacher.subjects.all()
+
+	if isUserStudent:
+		return render(request,'home/student-main.html',locals())
+	elif isUserTeacher:
+		return render(request,'home/teacher-main.html',locals())
+	else:
+		return render(request,'home/main.html',locals())

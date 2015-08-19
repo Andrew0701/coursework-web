@@ -1,0 +1,22 @@
+{% extends 'home/main.html' %}
+{% load i18n %}
+{% load filters %}
+
+{% block teacher %}
+	<span> {{ user.teacher.name }} {{ user.teacher.surname }}</span>
+	<br>
+	<br>
+	<span>{% trans "Предметы" %}:</span>
+	<ul>
+		{% for subject in user.teacher.subjects.all %}
+			<li>
+				{{subject}}
+				<ul>
+					{% for student in user.teacher|studentsOf:subject %}
+						<li>{{student}}</li>
+					{% endfor %}
+				</ul>
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock teacher %}

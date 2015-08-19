@@ -9,15 +9,19 @@ class Subject(models.Model):
 
 class Job(models.Model):
 	name = models.CharField(max_length = 100)
-	number = models.IntegerField()
+	number = models.IntegerField(null=True,blank=True)
 
 	subject = models.ForeignKey(Subject)
 
 	def __str__(self):
-		return self.name
+		return self.name + (
+			' ' + str(self.number)
+			if self.number is not None
+			else ''
+		)
 
 class Group(models.Model):
-	group = models.CharField(max_length=5)
+	group = models.CharField(max_length=10)
 	course = models.IntegerField()
 	
 	def __str__(self):
@@ -30,21 +34,11 @@ class Student(models.Model):
 	surname = models.CharField(max_length=100)
 	group = models.ForeignKey(Group,null=True)
 
-	subjects = models.ManyToManyField(Subject)
+	subjects = models.ManyToManyField(Subject, through='Student_Subject')
 	jobs = models.ManyToManyField(Job, through='Log')
 
 	def __str__(self):
 		return self.surname + ' ' + self.name
-
-class Log(models.Model):
-	job = models.ForeignKey(Job)
-	student = models.ForeignKey(Student)
-
-	mark = models.IntegerField()
-	date = models.DateField()
-
-	def __str__(slef):
-		return str(student) + ' ' + str(job)
 
 class Teacher(models.Model):
 	user = models.OneToOneField(User,null=True)
@@ -56,3 +50,29 @@ class Teacher(models.Model):
 
 	def __str__(self):
 		return self.surname + ' ' + self.name + ' ' + self.patronymic
+
+class Student_Subject(models.Model):
+	student = models.ForeignKey(Student)
+	subject = models.ForeignKey(Subject)
+	teacher = models.ForeignKey(Teacher)
+
+	def __str__(self):
+		return (
+			str(self.student) + ' - ' +
+			str(self.subject) + ' - ' +
+			str(self.teacher.surname)
+		)
+
+class Log(models.Model):
+	job = models.ForeignKey(Job)
+	student = models.ForeignKey(Student)
+
+	mark = models.IntegerField()
+	date = models.DateField()
+
+	def __str__(self):
+		return (
+			str(self.student) + ' - ' + 
+			str(self.job.subject) + ' - ' + 
+			str(self.job)
+		)
