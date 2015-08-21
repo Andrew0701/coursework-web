@@ -2,19 +2,19 @@
 
 <form id='student' action="{% url 'home:reg' %}" method="POST">
 	{% csrf_token %}
-		<input type="text" name="login"		placeholder="{% trans "Логин" %}"
+		<input class='student_reg' type="text" name="login"		placeholder="{% trans "Логин" %}"
 			oninput='validateLogin($(this))'>
 		<br>
-		<input type="email"name="email"		placeholder="{% trans "E-mail" %}"
+		<input class='student_reg' type="email"name="email"		placeholder="{% trans "E-mail" %}"
 			oninput='validateEmail($(this))'>
 		<br>
-		<input type="text" name="surname"	placeholder="{% trans "Фамилия" %}"
+		<input class='student_reg' type="text" name="surname"	placeholder="{% trans "Фамилия" %}"
 			oninput='validateWord($(this))'>
 		<br>
-		<input type="text" name="name"		placeholder="{% trans "Имя" %}"
+		<input class='student_reg' type="text" name="name"		placeholder="{% trans "Имя" %}"
 			oninput='validateWord($(this))'>
 		<br>
-		<input type="text" name="patronymic"placeholder="{% trans "Отчество" %}"
+		<input class='student_reg' type="text" name="patronymic"placeholder="{% trans "Отчество" %}"
 			oninput='validateWord($(this))'>
 		<br>
 
@@ -29,13 +29,13 @@
 			<script>loadGroupsFrom({% url 'home:reg' %})</script>
 		</select>
 		<br>
-		<input type="password" placeholder="{% trans "Пароль" %}" name="password"
+		<input class='student_reg' type="password" placeholder="{% trans "Пароль" %}" name="password"
 			id="student"
 			oninput='validatePassword($(this))'>
 		<br>
-		<input type="password" placeholder="{% trans "Повторить пароль" %}"
+		<input class='student_reg' type="password" name = 'password_rep' placeholder="{% trans "Повторить пароль" %}"
 			oninput='validatePasswordConfirmation($(this),"student")'>
 		<br>
 		<input type="hidden" name="user_type" value="student">
-		<input type="submit" value="{% trans "Зарегистрироваться" %}">
+		<input id = 'reg_student' type="submit" value="{% trans "Зарегистрироваться" %}">
 </form>

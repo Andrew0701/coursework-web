@@ -15,7 +15,7 @@
 	</script>
 	
 	<span> {% trans "Регистрация" %} </span>
-		<form>
+		<form name="person">
 			<span>{% trans "Студент" %}</span>
 			<input type='radio' name='who' value='student' checked='true'>
 			<span>{% trans "Преподаватель" %}</span>
@@ -26,7 +26,7 @@
 		{% include 'home/reg-teacher.html' %}
 
 		<script>
-			formVisibilityToggle('student','teacher');
-			formVisibilityToggle('teacher','student');
+			formVisibilityToggle(); // Показать поля выбранной персоны
+            listener_on_change(); // Блокировка кнопки
 		</script>
 {% endblock %}
