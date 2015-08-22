@@ -20,7 +20,7 @@
 						{% block menu %}
 							<ul>
 								<li><a href="{% url 'home:main' %}">{% trans "Главная" %}</a></li>
-								<li>[Пункт меню 2]</li>
+								<li><a href="{% url 'home:settings' %}">{% trans "Настройки" %}</a></li>
 								<li>[Пункт меню 3]</li>
 								{% if request.user.is_authenticated %}
 									<li><a href="{% url 'home:logout' %}">

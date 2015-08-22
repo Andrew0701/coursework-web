@@ -1,17 +1,17 @@
 {% extends 'home/base.html' %}
 {% load i18n %}
 {% load filters %}
-{% block title %} Progress {% endblock %}
+{% block title %} {% trans "Главная" %} {% endblock %}
 
 {% block main %}
 	{% if error_message %}
 		<span class='error'> {{error_message}} </span>
 	{% else %}
 
-		{% if isUserStudent %}
+		{% if user|isStudent %}
 			{% block student %}{% endblock %}
 
-		{% elif isUserTeacher %}
+		{% elif user|isTeacher %}
 			{% block teacher %}{% endblock %}
 			
 		{% endif %}

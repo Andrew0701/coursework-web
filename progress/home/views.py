@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group as UsersGroup
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import check_password, make_password
 from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django import template
-from  .models import Group, Student, Teacher, Student_Subject
+from  .models import Group, Student, Teacher, Student_Subject, Subject
 import json
 
 #making available filters in templates
@@ -119,3 +123,109 @@ def main(request):
 		return render(request,'home/teacher-main.html',locals())
 	else:
 		return render(request,'home/main.html',locals())
+
+def settings(request):
+
+	if request.method == 'POST':
+
+		if  request.is_ajax():
+
+			if request.POST['action'] == 'student_add_subject':
+
+				Student_Subject.objects.create(
+					student = Student.objects.get(pk=request.POST['studentid']),
+					subject = Subject.objects.get(pk=request.POST['subjectid']),
+					teacher = Teacher.objects.get(pk=request.POST['teacherid'])
+				)
+
+				return HttpResponse(json.dumps(_('Предмет добавлен')), content_type='application/json')
+
+			elif request.POST['action'] == 'student_delete_subject':
+
+				Student_Subject.objects.get(
+					student__id = request.POST['studentid'],
+					subject__id = request.POST['subjectid']
+				).delete()
+
+				return HttpResponse(json.dumps(_('Предмет удален')),content_type='application/json')
+
+			elif request.POST['action'] == 'student_change_teacher':
+
+				try:
+					studentSubjectRecord = Student_Subject.objects.get(
+						student__id = request.POST['studentid'],
+						subject__id = request.POST['subjectid']
+					)
+					studentSubjectRecord.teacher = Teacher.objects.get(pk = request.POST['teacherid'])
+					studentSubjectRecord.save()
+
+				except ObjectDoesNotExist:
+					#если предмет не выбран нет смысла менять преподавателя
+					pass
+
+				return HttpResponse(json.dumps(_('Преподаватель изменен')), content_type='application/json')
+
+			elif request.POST['action'] == 'teacher_add_subject':
+
+				subject = Subject.objects.get(pk = request.POST['subjectid'])
+				request.user.teacher.subjects.add( subject )
+				request.user.teacher.save()
+
+				return HttpResponse(json.dumps(_('Предмет добавлен')), content_type='application/json')
+
+			elif request.POST['action'] == 'teacher_delete_subject':
+
+				teacher = request.user.teacher
+				subject = Subject.objects.get(pk = request.POST['subjectid'] )
+				
+				studentSubjectRecords = Student_Subject.objects.filter(
+					teacher__id = teacher.id,
+					subject__id = subject.id
+				)
+
+				for record in studentSubjectRecords:
+					record.delete()
+
+				teacher.subjects.remove( subject )
+				teacher.save()
+
+				return HttpResponse(json.dumps(_('Предмет удален')),content_type='application/json')
+
+			return HttpResponse('')
+
+		#POST, but not ajax
+		else:
+			user = request.user
+			if check_password(request.POST['old-password'], user.password):
+				if request.POST['new-password'] == request.POST['repeat-password']:
+					user.password = make_password(request.POST['new-password'])
+					user.save()
+					return render(request,'home/settings.html',{
+							'success_message':_('Новый пароль установлен')
+						}
+					)
+				else:
+					return render(request,'home/settings.html',{
+							'error_message':_('Пароли не совпадают')
+						}
+					)
+			else:
+				return render(request,'home/settings.html',{
+						'error_message':_('Неверный пароль!')
+					}
+				)
+
+	else:
+		user = request.user
+
+		isUserStudent = user.groups.filter(name='Students').exists()
+		isUserTeacher = user.groups.filter(name='Teachers').exists()
+
+		subjects = Subject.objects.all()
+
+		if isUserStudent:
+			return render(request,'home/student-settings.html',locals())
+		elif isUserTeacher:
+			return render(request,'home/teacher-settings.html',locals())
+		else:
+			return render(request,'home/main.html',locals())

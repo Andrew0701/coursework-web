@@ -1,0 +1,55 @@
+{% extends 'home/settings.html' %}
+{% load i18n %}
+{% load filters %}
+
+{% block student %}
+	<fieldset>
+		<legend>{% trans "Предметы" %}</legend>
+		{% for subject in subjects %}
+			<label>
+				<input type='checkbox'
+						id='{{subject.id}}'
+						{% if subject in user.student.subjects.all %}
+							checked
+						{% endif %}
+				>
+				{{subject.name}}
+			</label>
+			&nbsp;
+			<select data-subjectid='{{subject.id}}'>
+				{% for teacher in subject.teacher_set.all %}
+					<option value='{{teacher.id}}'
+							{% if teacher == user.student|teacherOf:subject %}
+								selected
+							{% endif %}
+					>
+						{{teacher}}
+					</option>
+				{% endfor %}
+			</select>
+			<br>
+			<script>
+				// handlers
+
+				$('input#{{subject.id}}').on('click',function() {
+					toggleStudentSubjectRecord(
+						{% url 'home:settings' %},							{# link for ajax request #}
+						{{user.student.id}},								{# student id #}
+						$(this).attr('id'),									{# subject id #}
+						$('select[data-subjectid={{subject.id}}]').val(), 	{# teacher id #}
+						$(this).prop('checked')
+					)
+				})
+
+				$('select[data-subjectid={{subject.id}}]').on('change',function(){
+					changeTeacher(
+						{% url 'home:settings' %},
+						{{user.student.id}},
+						$(this).attr('data-subjectid'),
+						$(this).val()
+					)
+				})
+			</script>
+		{% endfor %}
+	</fieldset>
+{% endblock %}

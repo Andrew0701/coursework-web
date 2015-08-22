@@ -10,3 +10,15 @@ def teacherOf(student,subject):
 @register.filter
 def studentsOf(teacher,subject):
 	return (item.student for item in Student_Subject.objects.filter(teacher = teacher, subject = subject))
+
+@register.filter
+def isStudent(user):
+	return user.groups.filter(name='Students').exists()
+
+@register.filter
+def isTeacher(user):
+	return user.groups.filter(name='Teachers').exists()
+
+@register.filter
+def teaches(teacher,student):
+	return Student_Subject.objects.filter(teacher = teacher, student = student)

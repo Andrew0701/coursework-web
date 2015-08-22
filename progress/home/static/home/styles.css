@@ -87,6 +87,16 @@ input, select {
 	color: green;
 }
 
+.confirmation {
+	position: absolute;
+	border: 2px solid red;
+	border-radius: 5px;
+	background-color: white;
+	font-size: 12px;
+	padding: 5px;
+	box-shadow: 0 0 10px;
+}
+
 form#teacher {
 	display: none;
 }
@@ -106,9 +116,15 @@ select, option {
 	background-color: white;
 }
 
-span {
+span, legend {
 	color: #0061a1;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+label {
+	color: #0061a1;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-size: 14px;
 }
 
 a {
@@ -138,4 +154,16 @@ table td, table th{
 	font-size: 15px;
 	border: 1px solid #0061a1;
 	padding: 5px;
+}
+
+fieldset {
+	border: none;
+	border-top: 1px solid #0061a1;
+	margin-top: 20px;
+}
+
+.info {
+	color: grey;
+	font-size: 14px;
+	padding-left: 10px;
 }

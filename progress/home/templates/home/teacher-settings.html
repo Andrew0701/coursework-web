@@ -1,0 +1,44 @@
+{% extends 'home/settings.html' %}
+{% load i18n %}
+
+{% block teacher %}
+	<fieldset>
+		<legend>{% trans "Предметы" %}</legend>
+		{% for subject in subjects %}
+			<label>
+				<input type='checkbox'
+						id='{{subject.id}}'
+						{% if subject in user.teacher.subjects.all %}
+							checked
+						{% endif %}
+				>
+				{{subject.name}}
+			</label>
+			<br>
+			<script>
+				//handlers
+
+				$('input#{{subject.id}}').on('click',function(e){
+
+					if (!$(this).is(':checked')) {
+						if (!confirm(
+							{% trans "Удалить этот предмет из преподаваемых?\
+							У каждого вашего студента так же удалится информация\
+							о том, что они изучают его!" %},
+							{{subject.id}})
+						){
+							$(this).prop('checked',true)
+							return;
+						}
+					}
+
+					toggleTeacherSubjectRecord(
+						{% url 'home:settings' %},							{# link for ajax request #}
+						{{subject.id}},										{# subject id #}
+						$(this).is(':checked')
+					)
+				})
+			</script>
+		{% endfor %}
+	</fieldset>
+{% endblock %}

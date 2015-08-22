@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-19 21:42+0300\n"
+"POT-Creation-Date: 2015-08-22 14:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,9 +19,13 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: home/templates/home/base.html:22
+#: home/templates/home/base.html:22 home/templates/home/main.html:4
 msgid "Главная"
 msgstr "Головна"
+
+#: home/templates/home/base.html:23 home/templates/home/settings.html:5
+msgid "Настройки"
+msgstr "Налаштування"
 
 #: home/templates/home/base.html:27
 msgid "Выйти"
@@ -32,8 +36,8 @@ msgstr "Вийти"
 msgid "Войти"
 msgstr "Увiйти"
 
-#: home/templates/home/base.html:33 home/templates/home/reg.html:5
-#: home/templates/home/reg.html.py:17
+#: home/templates/home/base.html:33 home/templates/home/reg-success.html:4
+#: home/templates/home/reg.html:5 home/templates/home/reg.html.py:17
 msgid "Регистрация"
 msgstr "Реєстрація"
 
@@ -54,26 +58,6 @@ msgstr "Логін"
 #: home/templates/home/reg-teacher.html:20
 msgid "Пароль"
 msgstr "Пароль"
-
-#: home/templates/home/main.html:15 home/templates/home/main.html.py:42
-msgid "Предметы"
-msgstr "Предемети"
-
-#: home/templates/home/main.html:22
-msgid "Работы"
-msgstr "Роботи"
-
-#: home/templates/home/main.html:25
-msgid "Предмет"
-msgstr "Предмет"
-
-#: home/templates/home/main.html:26
-msgid "Номер"
-msgstr "Номер"
-
-#: home/templates/home/main.html:27
-msgid "Название"
-msgstr "Назва"
 
 #: home/templates/home/reg-student.html:8
 #: home/templates/home/reg-teacher.html:8
@@ -105,6 +89,7 @@ msgstr "Група"
 
 #: home/templates/home/reg-student.html:36
 #: home/templates/home/reg-teacher.html:24
+#: home/templates/home/settings.html:35
 msgid "Повторить пароль"
 msgstr "Повторіть пароль"
 
@@ -121,26 +106,61 @@ msgstr "Студент"
 msgid "Преподаватель"
 msgstr "Викладач"
 
-#~ msgid "Вы - аноним"
-#~ msgstr "Ви - анонiм"
+#: home/templates/home/settings.html:31
+msgid "Изменить пароль"
+msgstr "Змінити пароль"
 
-#~ msgid "Ок"
-#~ msgstr "Ок"
+#: home/templates/home/settings.html:33
+msgid "Старый пароль"
+msgstr "Старий пароль"
 
-#~ msgid "Пункт меню 1"
-#~ msgstr "Пункт меню 1"
+#: home/templates/home/settings.html:34
+msgid "Новый пароль"
+msgstr "Новий пароль"
 
-#~ msgid "Пункт меню 2"
-#~ msgstr "Пункт меню 2"
+#: home/templates/home/student-main.html:9
+#: home/templates/home/student-settings.html:7
+#: home/templates/home/teacher-main.html:9
+#: home/templates/home/teacher-settings.html:6
+msgid "Предметы"
+msgstr "Предемети"
 
-#~ msgid "Пункт меню 3"
-#~ msgstr "Пункт меню 3"
+#: home/templates/home/student-main.html:16
+msgid "Работы"
+msgstr "Роботи"
 
-#~ msgid "Пункт меню 4"
-#~ msgstr "Пункт меню 4"
+#: home/templates/home/student-main.html:19
+msgid "Предмет"
+msgstr "Предмет"
 
-#~ msgid "Пункт меню 5"
-#~ msgstr "Пункт меню 5"
+#: home/templates/home/student-main.html:20
+msgid "Номер"
+msgstr "Номер"
 
-#~ msgid "Пункт меню 6"
-#~ msgstr "Пункт меню 6"
+#: home/templates/home/student-main.html:21
+msgid "Название"
+msgstr "Назва"
+
+#: home/views.py:141 home/views.py:174
+msgid "Предмет добавлен"
+msgstr "Предмет додано"
+
+#: home/views.py:150 home/views.py:192
+msgid "Предмет удален"
+msgstr "Предемет видалено"
+
+#: home/views.py:166
+msgid "Преподаватель изменен"
+msgstr "Викладача змiнено"
+
+#: home/views.py:204
+msgid "Новый пароль установлен"
+msgstr "Новий пароль встановлено"
+
+#: home/views.py:209
+msgid "Пароли не совпадают"
+msgstr "Паролi не збiгаються"
+
+#: home/views.py:214
+msgid "Неверный пароль!"
+msgstr "Невiрний пороль!"

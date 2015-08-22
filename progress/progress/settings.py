@@ -56,6 +56,7 @@ MIDDLEWARE_CLASSES = (
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
+CSRF_COOKIE_NAME = 'csrftoken'
 ROOT_URLCONF = 'progress.urls'
 
 TEMPLATES = [
