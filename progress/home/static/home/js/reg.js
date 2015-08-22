@@ -17,11 +17,21 @@ function loadGroupsFrom(link) {
 	})
 }
 
-function formVisibilityToggle(formName,otherForm){
-	$(`input[value=${formName}]`).change(function(){
-		if ($(this).is(':checked')) {
-			$(`form#${formName}`).show();
-			$(`form#${otherForm}`).hide();
-		}
-	})
+function formVisibilityToggle(){
+    var input = $('input[name="who"]');
+    input.change(function(){
+        elem = $("input:radio:checked");
+        switch (elem.val()){
+            case 'student':
+                $('form[id="student"]').show();
+                $('form[id="teacher"]').hide();
+                break;
+            case 'teacher':
+                $('form[id="teacher"]').show();
+                $('form[id="student"]').hide();
+                break;
+            default:
+                break;
+        }
+    })
 }
