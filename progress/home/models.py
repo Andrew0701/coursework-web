@@ -8,9 +8,7 @@ class Subject(models.Model):
 		return self.name
 
 class Job(models.Model):
-	name = models.CharField(max_length = 100)
-	number = models.IntegerField(null=True,blank=True)
-
+	name = models.CharField(max_length = 512)
 	subject = models.ForeignKey(Subject)
 
 	def __str__(self):

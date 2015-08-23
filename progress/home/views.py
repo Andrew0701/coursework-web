@@ -9,15 +9,11 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django import template
-from  .models import Group, Student, Teacher, Student_Subject, Subject
+from  .models import Group, Student, Teacher, Student_Subject, Subject, Job
 import json
 
 #making available filters in templates
 register = template.Library()
-
-# Create your views here.
-def main(request):
-	return render(request,'home/main.html',locals())
 	
 def reg(request):
 	#пользователь изменил курс (значение выпадающего списка)
@@ -110,12 +106,14 @@ def main(request):
 
 	if isUserStudent:
 		subjects = user.student.subjects.all()
-		for subject in subjects:
-			for job in subject.job_set.all():
-				jobs.append( job )
 
 	if isUserTeacher:
 		subjects = user.teacher.subjects.all()
+
+	if isUserStudent or isUserTeacher:
+		for subject in subjects:
+				for job in subject.job_set.all():
+					jobs.append( job )
 
 	if isUserStudent:
 		return render(request,'home/student-main.html',locals())
@@ -190,6 +188,30 @@ def settings(request):
 				teacher.save()
 
 				return HttpResponse(json.dumps(_('Предмет удален')),content_type='application/json')
+
+			elif request.POST['action'] == 'add_job':
+
+				subject = Subject.objects.get(pk = request.POST['subjectid'])
+				Job.objects.create(
+					subject = subject,
+					name = request.POST['name']
+				)
+
+				return HttpResponse(json.dumps(_('Работа добавлена')),content_type='application/json')
+
+			elif request.POST['action'] == 'delete_job':
+
+				Job.objects.get(pk = request.POST['jobid']).delete()
+
+				return HttpResponse(json.dumps(_('Работа удалена')),content_type='application/json')
+
+			elif request.POST['action'] == 'edit_job':
+
+				job = Job.objects.get(pk = request.POST['jobid'])
+				job.name = request.POST['new_name']
+				job.save()
+
+				return HttpResponse(json.dumps(_('Название изменено')),content_type='application/json')
 
 			return HttpResponse('')
 

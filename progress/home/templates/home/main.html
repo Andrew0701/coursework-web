@@ -1,7 +1,12 @@
 {% extends 'home/base.html' %}
 {% load i18n %}
 {% load filters %}
+{% load staticfiles %}
 {% block title %} {% trans "Главная" %} {% endblock %}
+{% block scripts %}
+	<script src="{% static "home/js/js-cookie.js" %}"></script>
+	<script src="{% static "home/js/settings.js" %}"></script>
+{% endblock %}
 
 {% block main %}
 	{% if error_message %}

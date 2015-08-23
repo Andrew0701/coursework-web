@@ -4,28 +4,30 @@
 
 {% block student %}
 	<span> {{ user.student.name }} {{ user.student.surname }}</span>
-	<br>
-	<br>
-	<span>{% trans "Предметы" %}:</span>
-	<ul>
-		{% for subject in subjects %}
-			<li> {{subject.name}} ( {{ user.student|teacherOf:subject }} )</li>
-		{% endfor %}
-	</ul>
+	<fieldset>
+		<legend>{% trans "Предметы" %}</legend>
+		<ul>
+			{% for subject in subjects %}
+				<li>
+					{{subject.name}} ( {{ user.student|teacherOf:subject }} )
+				</li>
+			{% endfor %}
+		</ul>
+	</fieldset>
 
-	<span>{% trans "Работы" %}:</span>
-	<table>
-		<tr>
-			<th>{% trans "Предмет" %}</th>
-			<th>{% trans "Номер" %}</th>
-			<th>{% trans "Название" %}</th>
-		</tr>
-		{% for job in jobs %}
-		<tr>
-			<td>{{job.subject}}</td>
-			<td>{{job.number}}</td>
-			<td>{{job.name}}</td>
-		</tr>
-		{% endfor %}
-	</table>
+	<fieldset>
+		<legend>{% trans "Работы" %}</legend>
+			<ul class='outer'>
+				{% for subject in subjects %}
+					<li>
+						{{subject.name}}
+							<ul>
+								{% for job in subject.job_set.all %}
+									<li>{{job.name}}</li>
+								{% endfor %}
+							</ul>
+					</li>
+				{% endfor %}
+			</ul>
+	</fieldset>
 {% endblock student %}

@@ -20,13 +20,10 @@
 
 				$('input#{{subject.id}}').on('click',function(e){
 
+					confirmationMessage = '{% trans "Удалить этот предмет из преподаваемых? У каждого вашего студента так же удалится информация о том, что они изучают его!" %}'
+
 					if (!$(this).is(':checked')) {
-						if (!confirm(
-							{% trans "Удалить этот предмет из преподаваемых?\
-							У каждого вашего студента так же удалится информация\
-							о том, что они изучают его!" %},
-							{{subject.id}})
-						){
+						if (!confirm(confirmationMessage,{{subject.id}})){
 							$(this).prop('checked',true)
 							return;
 						}
@@ -41,4 +38,5 @@
 			</script>
 		{% endfor %}
 	</fieldset>
+
 {% endblock %}

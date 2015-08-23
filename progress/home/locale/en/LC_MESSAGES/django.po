@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-22 14:53+0300\n"
+"POT-Creation-Date: 2015-08-23 15:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: home/templates/home/base.html:22 home/templates/home/main.html:4
+#: home/templates/home/base.html:22 home/templates/home/main.html:5
 msgid "Главная"
 msgstr "Main"
 
@@ -116,52 +116,82 @@ msgstr "Old password"
 msgid "Новый пароль"
 msgstr "New password"
 
-#: home/templates/home/student-main.html:9
+#: home/templates/home/settings.html:36
+msgid "Изменить"
+msgstr "Change"
+
+#: home/templates/home/student-main.html:8
 #: home/templates/home/student-settings.html:7
 #: home/templates/home/teacher-main.html:9
 #: home/templates/home/teacher-settings.html:6
 msgid "Предметы"
 msgstr "Subjects"
 
-#: home/templates/home/student-main.html:16
+#: home/templates/home/student-main.html:19
+#: home/templates/home/teacher-main.html:25
 msgid "Работы"
 msgstr "Jobs"
 
-#: home/templates/home/student-main.html:19
+#: home/templates/home/teacher-main.html:40
+msgid "Изменть название"
+msgstr "Edit name"
+
+#: home/templates/home/teacher-main.html:50
+msgid "Удалить"
+msgstr "Delete"
+
+#: home/templates/home/teacher-main.html:63
 msgid "Предмет"
 msgstr "Subject"
 
-#: home/templates/home/student-main.html:20
-msgid "Номер"
-msgstr "Number"
-
-#: home/templates/home/student-main.html:21
+#: home/templates/home/teacher-main.html:70
 msgid "Название"
 msgstr "Name"
 
-#: home/views.py:141 home/views.py:174
+#: home/templates/home/teacher-settings.html:23
+msgid ""
+"Удалить этот предмет из преподаваемых? У каждого вашего студента так же "
+"удалится информация о том, что они изучают его!"
+msgstr "Delete this subject? Each student will lost info they study it!"
+
+#: home/views.py:139 home/views.py:172
 msgid "Предмет добавлен"
 msgstr "Subject added"
 
-#: home/views.py:150 home/views.py:192
+#: home/views.py:148 home/views.py:190
 msgid "Предмет удален"
 msgstr "Subject deleted"
 
-#: home/views.py:166
+#: home/views.py:164
 msgid "Преподаватель изменен"
 msgstr "Teacher changed"
 
-#: home/views.py:204
+#: home/views.py:200
+msgid "Работа добавлена"
+msgstr "Job added"
+
+#: home/views.py:206
+msgid "Работа удалена"
+msgstr "Job deleted"
+
+#: home/views.py:214
+msgid "Название изменено"
+msgstr "Name changed"
+
+#: home/views.py:226
 msgid "Новый пароль установлен"
 msgstr "New password set"
 
-#: home/views.py:209
+#: home/views.py:231
 msgid "Пароли не совпадают"
 msgstr "Passwords doesn't match"
 
-#: home/views.py:214
+#: home/views.py:236
 msgid "Неверный пароль!"
 msgstr "Wrong password!"
+
+#~ msgid "Номер"
+#~ msgstr "Number"
 
 #~ msgid "Вы - аноним"
 #~ msgstr "You are anonymous"

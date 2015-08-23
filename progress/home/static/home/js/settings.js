@@ -1,29 +1,3 @@
-// function confirm(message,subjectid){
-// 	checkbox = $(`input[id=${subjectid}]`)
-// 	x = checkbox.position().left
-// 	y = checkbox.position().top
-
-// 	$('body').append("<div class='confirmation'></div>")
-// 	$('.confirmation').append(`<span>${message}</span><br>`)
-// 	$('.confirmation').append(`<input name='yes'	type='button' value='Да'>&nbsp;`)
-// 	$('.confirmation').append(`<input name='no'		type='button' value='Нет'>`)
-// 	$('.confirmation').css(
-// 		{
-// 			left: x+'px',
-// 			top: (y+30)+'px'
-// 		}
-// 	)
-
-// 	$('input[name=yes]').on('click',function(){
-// 		$('.confirmation').remove()
-// 		return true;
-// 	})
-// 	$('input[name=no]').on('click',function(){
-// 		$('.confirmation').remove()
-// 		return false;
-// 	})
-// }
-
 //needed for safe POST requests
 //details: https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
 function ajaxSetup() {
@@ -88,5 +62,61 @@ function changeTeacher(link,studentid,subjectid,teacherid) {
 			'action':'student_change_teacher',
 		},
 		dataType: 'json'
+	})
+}
+
+function addJob(link,subjectid,name) {
+	ajaxSetup();
+	$.ajax({
+		type: 'POST',
+		url: link,
+		data: {
+			'subjectid':subjectid,
+			'name':name,
+			'action':'add_job'
+		},
+		dataType: 'json',
+		success: location.reload()
+	})
+}
+
+function deleteJob(link,jobid,confirmationMessage) {
+
+	if (!confirm(confirmationMessage)){
+			return;
+	}
+
+	ajaxSetup();
+	$.ajax({
+		type: 'POST',
+		url: link,
+		data: {
+			'jobid':jobid,
+			'action':'delete_job'
+		},
+		dataType: 'json',
+		success: location.reload()
+	})
+}
+
+function editJob(link,jobid,promptText,defaultText) {
+
+	newName = prompt(promptText,defaultText)
+
+	if (newName == null) {
+		return;
+	}
+
+	ajaxSetup();
+	$.ajax({
+		type: 'POST',
+		url: link,
+		data: {
+			'jobid':jobid,
+			'new_name':newName,
+			'action':'edit_job'
+		},
+		dataType: 'json',
+		success: location.reload()
 	})
 }

@@ -1,22 +1,85 @@
 {% extends 'home/main.html' %}
 {% load i18n %}
 {% load filters %}
+{% load staticfiles %}
 
 {% block teacher %}
 	<span> {{ user.teacher.name }} {{ user.teacher.surname }}</span>
-	<br>
-	<br>
-	<span>{% trans "Предметы" %}:</span>
-	<ul>
-		{% for subject in user.teacher.subjects.all %}
-			<li>
-				{{subject}}
-				<ul>
-					{% for student in user.teacher|studentsOf:subject %}
-						<li>{{student}}</li>
-					{% endfor %}
-				</ul>
-			</li>
-		{% endfor %}
-	</ul>
+	<fieldset>
+		<legend>{% trans "Предметы" %}</legend>
+		<ul>
+			{% for subject in subjects %}
+				<li class='drop_down' onclick="$(this).children().slideToggle(100)">
+					{{subject.name}}
+					<ul style="display:none">
+						{% for student in user.teacher|studentsOf:subject %}
+							<li>{{student}}</li>
+						{% endfor %}
+					</ul>
+				</li>
+			{% endfor %}
+		</ul>
+	</fieldset>
+
+	<fieldset>
+		<legend>{% trans "Работы" %}</legend>
+			<ul class='outer'>
+				{% for subject in subjects %}
+					<li>
+						{{subject.name}}
+						<table>
+							{% for job in subject.job_set.all %}
+								<tr>
+									<td>{{job.name}}</td>
+								
+									<td>
+										<a href='#'
+											onclick="editJob(
+												{% url 'home:settings' %},
+												{{job.id}},
+												'{% trans "Изменть название" %}',
+												'{{job.name}}'
+											)"
+										>
+											&#9998; {# pencil #}
+										</a>
+										<a href='#'
+											onclick="deleteJob(
+												{% url 'home:settings' %},
+												{{job.id}},
+												'{% trans "Удалить" %} {{job.name}}?'
+											)"
+										>
+											&#10005; {# cross #}
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</li>
+				{% endfor %}
+			</ul>
+
+			<label>{% trans "Предмет" %}</label>
+			<select id='subject'>
+				{% for subject in subjects %}
+					<option value='{{subject.id}}'>{{subject.name}}</option>
+				{% endfor %}
+			</select>
+
+			<input type='text' name='name' placeholder='{% trans "Название" %}'
+					style='width: 300px'>
+			<input id='add-button' type='button' value='Добавить'>
+
+			<script>
+				$('#add-button').on('click',function () {
+					addJob(
+						{% url "home:settings" %},
+						$('select#subject').val(),
+						$('input[name=name]').val()
+					)
+				})
+			</script>
+
+	</fieldset>
 {% endblock teacher %}

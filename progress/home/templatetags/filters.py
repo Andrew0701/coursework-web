@@ -1,5 +1,5 @@
 from django import template
-from ..models import Student_Subject
+from ..models import Student_Subject, Subject
 
 register = template.Library()
 
