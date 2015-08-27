@@ -19,9 +19,9 @@
 		<br>
 
 		<span>{% trans "Курс" %}:</span>
-		<select id="course" name="course" onchange="loadGroupsFrom({% url 'home:reg' %})">
-			{% for course in courses %}
-				<option value="{{course}}">{{course}}</option>
+		<select id="year" name="year" onchange="loadGroupsFrom({% url 'home:reg' %})">
+			{% for year in years %}
+				<option value="{{year}}">{{year}}</option>
 			{% endfor %}
 		</select>
 		<span>{% trans "Группа" %}:</span>

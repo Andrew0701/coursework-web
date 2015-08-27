@@ -73,7 +73,7 @@ main {
 }
 
 footer {
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 
 	text-align: center;
@@ -172,6 +172,7 @@ table {
 	border-padding: 10px;
 	border-collapse: collapse;
 	margin-left: 50px;
+	margin-top: 10px; margin-bottom: 10px;
 }
 
 table td, table th{

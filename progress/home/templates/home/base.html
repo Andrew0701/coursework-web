@@ -21,7 +21,7 @@
 							<ul>
 								<li><a href="{% url 'home:main' %}">{% trans "Главная" %}</a></li>
 								<li><a href="{% url 'home:settings' %}">{% trans "Настройки" %}</a></li>
-								<li>[Пункт меню 3]</li>
+								<li><a href='#'>{%trans "Статистика"%}</li>
 								{% if request.user.is_authenticated %}
 									<li><a href="{% url 'home:logout' %}">
 											{% trans "Выйти" %}
@@ -40,6 +40,7 @@
 			<main>
 				{% block main %}
 				{% endblock %}
+				<br><br>
 			</main>
 			<footer>
 				{% block footer %}

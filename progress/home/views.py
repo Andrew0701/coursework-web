@@ -6,10 +6,11 @@ from django.contrib.auth.models import Group as UsersGroup
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.urlresolvers import reverse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from datetime import date
 from django import template
-from  .models import Group, Student, Teacher, Student_Subject, Subject, Job
+from  .models import Group, Student, Teacher, Student_Subject, Subject, Job, Semester
 import json
 
 #making available filters in templates
@@ -18,8 +19,8 @@ register = template.Library()
 def reg(request):
 	#пользователь изменил курс (значение выпадающего списка)
 	if request.is_ajax() and request.method=='GET':
-		requestedCourse = request.GET['course']
-		groups_objects = Group.objects.filter(course=requestedCourse)
+		requestedYear = request.GET['year']
+		groups_objects = Group.objects.filter(year=requestedYear)
 		groups = [str(group) for group in groups_objects]
 
 		return HttpResponse(json.dumps(groups), content_type='application/json' )
@@ -43,7 +44,7 @@ def reg(request):
 				name = request.POST['name'],
 				surname = request.POST['surname'],
 				patronymic = request.POST['patronymic'],
-				group = Group.objects.get(group=request.POST['group'])
+				group = Group.objects.get(name=request.POST['group'])
 			)
 
 		elif request.POST['user_type'] == 'teacher':
@@ -61,11 +62,9 @@ def reg(request):
 		
 	else:
 		#запрос формы регистрации
-		courses_set = set( Group.objects.values_list('course',flat=True) )
-		context = {
-			'courses':sorted(list(courses_set))
-		}
-		return render(request,'home/reg.html',context)
+		years = set( Group.objects.values_list('year',flat=True) )
+		years = sorted(list(years))
+		return render(request,'home/reg.html',locals())
 
 def log_in(request):
 
@@ -99,7 +98,8 @@ def log_out(request):
 def main(request):
 	user = request.user
 	subjects = None
-	jobs = []
+	jobs = list()
+	currentSemesters = None
 
 	isUserStudent = user.groups.filter(name='Students').exists()
 	isUserTeacher = user.groups.filter(name='Teachers').exists()
@@ -108,7 +108,20 @@ def main(request):
 		subjects = user.student.subjects.all()
 
 	if isUserTeacher:
-		subjects = user.teacher.subjects.all()
+		subjects = set(user.teacher.subjects.all())
+		currentSemesters = list( 
+			filter( (lambda s : s.isCurrent()), Semester.objects.all() )
+		)
+		currentSubjects = set()
+		for semester in currentSemesters:
+			currentSubjects |= set(semester.subjects.all())
+
+		subjects &= currentSubjects
+
+		for subject in subjects:
+			for semester in currentSemesters:
+				if subject in semester.subjects.all():
+					print(semester.group.name)
 
 	if isUserStudent or isUserTeacher:
 		for subject in subjects:
@@ -243,10 +256,18 @@ def settings(request):
 		isUserStudent = user.groups.filter(name='Students').exists()
 		isUserTeacher = user.groups.filter(name='Teachers').exists()
 
-		subjects = Subject.objects.all()
+		currentSemesters = list( 
+				filter( (lambda s : s.isCurrent()), Semester.objects.all() )
+			)
+		currentSubjects = set()
+		for semester in currentSemesters:
+			currentSubjects |= set(semester.subjects.all())
 
+		subjects = currentSubjects
+			
 		if isUserStudent:
 			return render(request,'home/student-settings.html',locals())
+
 		elif isUserTeacher:
 			return render(request,'home/teacher-settings.html',locals())
 		else:

@@ -7,17 +7,33 @@
 	<span> {{ user.teacher.name }} {{ user.teacher.surname }}</span>
 	<fieldset>
 		<legend>{% trans "Предметы" %}</legend>
-		<ul>
+		<ul class='outer'>
 			{% for subject in subjects %}
-				<li class='drop_down' onclick="$(this).children().slideToggle(100)">
+				<li>
 					{{subject.name}}
-					<ul style="display:none">
-						{% for student in user.teacher|studentsOf:subject %}
-							<li>{{student}}</li>
-						{% endfor %}
+					<ul>
+					{% for semester in currentSemesters %}
+						{% if subject in semester.subjects.all %}
+							<li class='drop_down'>
+								{{ semester.group.name }}
+								<table style='display:none'>
+									{% for student in semester.group.student_set.all %}
+										<tr>
+											<td> {{student}} </td>
+										</tr>
+									{% endfor %}
+								</table>
+							</li>
+						{% endif %}
+					{% endfor %}
 					</ul>
 				</li>
 			{% endfor %}
+			<script>
+				$('.drop_down').on('click',function () {
+					$(this).children().slideToggle(100)
+				})
+			</script>
 		</ul>
 	</fieldset>
 

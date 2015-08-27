@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
 
 class Subject(models.Model):
 	name = models.CharField(max_length = 100)
@@ -19,11 +20,25 @@ class Job(models.Model):
 		)
 
 class Group(models.Model):
-	group = models.CharField(max_length=10)
-	course = models.IntegerField()
+	name = models.CharField(max_length=10)
+	year = models.IntegerField()
 	
 	def __str__(self):
-		return self.group
+		return self.name
+
+class Semester(models.Model):
+	group = models.ForeignKey(Group)
+	number = models.IntegerField(default=1)
+	subjects = models.ManyToManyField(Subject)
+
+	start_date = models.DateField(null=True)
+	end_date = models.DateField(null=True)
+
+	def isCurrent(self):
+		return self.start_date <= date.today() <= self.end_date
+
+	def __str__(self):
+		return self.group.name + ' semester ' + str(self.number)
 
 class Student(models.Model):
 	user = models.OneToOneField(User,null=True)

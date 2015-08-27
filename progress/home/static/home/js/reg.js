@@ -7,11 +7,11 @@ function makeGroupSelect(groups) {
 }
 
 function loadGroupsFrom(link) {
-	course = $('#course').val()
+	year = $('#year').val()
 	$.ajax({
 		type: 'GET',
 		url: link,
-		data: { 'course':course },
+		data: { 'year':year },
 		dataType: 'json',
 		success: makeGroupSelect
 	})
