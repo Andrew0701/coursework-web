@@ -33,8 +33,8 @@ def get_subjects_of(semesters):
 def reg(request):
 	#пользователь изменил курс (значение выпадающего списка)
 	if request.is_ajax() and request.method=='GET':
-		requestedYear = request.GET['year']
-		groups_objects = Group.objects.filter(year=requestedYear)
+		requested_year = request.GET['year']
+		groups_objects = Group.objects.filter(year = requested_year)
 		groups = [str(group) for group in groups_objects]
 
 		return HttpResponse(json.dumps(groups), content_type='application/json' )
@@ -72,13 +72,13 @@ def reg(request):
 				patronymic = request.POST['patronymic'],
 			)
 
-		return render(request,'home/reg-success.html')
+		return render(request,'home/reg/success.html')
 		
 	else:
 		#запрос формы регистрации
 		years = set( Group.objects.values_list('year',flat=True) )
 		years = sorted(list(years))
-		return render(request,'home/reg.html',locals())
+		return render(request,'home/reg/base.html',locals())
 
 def log_in(request):
 
@@ -96,56 +96,59 @@ def log_in(request):
 				login(request,user)
 				return HttpResponseRedirect(reverse('home:main'))
 			else:
-				return render(request, 'home/main.html', {
+				return render(request, 'home/main/base.html', {
 					'error_message':'Ваш аккаунт заблокирован'
 					}
 				)
-		return render(request,'home/main.html',{
+		return render(request,'home/main/base.html',{
 			'error_message':'Неверный логин или пароль'
 			}
 		)
 
 def log_out(request):
-	logout(request)
+	if request.user.is_authenticated:
+		logout(request)
 	return HttpResponseRedirect(reverse('home:main'))
 
 def main(request):
 	user = request.user
 	subjects = None
 	jobs = list()
-	currentSemesters = None
-	passedJobsIds = None
+	current_semesters = None
+	passed_jobs_ids = None
 
-	isUserStudent = hasattr(user,'student')
-	isUserTeacher = hasattr(user,'teacher')
+	user_is_student = hasattr(user,'student')
+	user_is_teacher = hasattr(user,'teacher')
 
-	if isUserStudent:
+	if user_is_student:
 		subjects = user.student.subjects.all()
-		passedJobsIds = [log.job.id for log in Log.objects.filter(student = user.student)]
+		passed_jobs_ids = [log.job.id for log in Log.objects.filter(student = user.student)]
 
-	if isUserTeacher:
+	if user_is_teacher:
 		subjects = set(user.teacher.subjects.all())
-		currentSemesters = get_current_semesters()
-		currentSubjects = get_subjects_of(currentSemesters)
+		current_semesters = get_current_semesters()
+		current_subjects = get_subjects_of(current_semesters)
 
-		subjects &= currentSubjects
+		subjects &= current_subjects
 
-	if isUserStudent or isUserTeacher:
+	if user_is_student or user_is_teacher:
 		for subject in subjects:
 				for job in subject.job_set.all():
 					jobs.append( job )
 
-	if isUserStudent:
-		return render(request,'home/student-main.html',locals())
-	elif isUserTeacher:
-		return render(request,'home/teacher-main.html',locals())
+	if user_is_student:
+		return render(request,'home/main/student.html',locals())
+	elif user_is_teacher:
+		return render(request,'home/main/teacher.html',locals())
 	else:
-		return render(request,'home/main.html',locals())
+		return render(request,'home/main/base.html',locals())
 
 def settings(request):
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('home:main'))
 
-	isUserStudent = hasattr(request.user,'student')
-	isUserTeacher = hasattr(request.user,'teacher')
+	user_is_student = hasattr(request.user,'student')
+	user_is_teacher = hasattr(request.user,'teacher')
 
 	if request.method == 'POST':
 
@@ -173,12 +176,12 @@ def settings(request):
 			elif request.POST['action'] == 'student_change_teacher':
 
 				try:
-					studentSubjectRecord = Student_Subject.objects.get(
+					student_subject_record = Student_Subject.objects.get(
 						student__id = request.POST['studentid'],
 						subject__id = request.POST['subjectid']
 					)
-					studentSubjectRecord.teacher = Teacher.objects.get(pk = request.POST['teacherid'])
-					studentSubjectRecord.save()
+					student_subject_record.teacher = Teacher.objects.get(pk = request.POST['teacherid'])
+					student_subject_record.save()
 
 				except ObjectDoesNotExist:
 					#если предмет не выбран нет смысла менять преподавателя
@@ -199,12 +202,12 @@ def settings(request):
 				teacher = request.user.teacher
 				subject = Subject.objects.get(pk = request.POST['subjectid'] )
 				
-				studentSubjectRecords = Student_Subject.objects.filter(
+				student_subject_records = Student_Subject.objects.filter(
 					teacher__id = teacher.id,
 					subject__id = subject.id
 				)
 
-				for record in studentSubjectRecords:
+				for record in student_subject_records:
 					record.delete()
 
 				teacher.subjects.remove( subject )
@@ -253,7 +256,7 @@ def settings(request):
 				log_query_set = Log.objects.filter(student__id = studentid, job__id = jobid)
 				log_entry = log_query_set[0] if log_query_set.exists() else None
 
-				if isUserStudent:
+				if user_is_student:
 					if not log_entry:
 						Log.objects.create(
 							student = request.user.student,
@@ -263,7 +266,7 @@ def settings(request):
 						)
 						return HttpResponse(json.dumps(_('Запись добавлена')),content_type='application/json')
 
-				elif isUserTeacher:
+				elif user_is_teacher:
 					if log_entry:
 						log_entry.confirmed = True
 						log_entry.save()
@@ -287,13 +290,13 @@ def settings(request):
 				log_query_set = Log.objects.filter(student__id = studentid, job__id = jobid)
 				log_entry = log_query_set[0] if log_query_set.exists() else None
 
-				if isUserStudent:
+				if user_is_student:
 					if log_entry:
 						if not log_entry.confirmed:
 							log_entry.delete()
 							return HttpResponse(json.dumps(_('Запись удалена')),content_type='application/json')
 
-				elif isUserTeacher:
+				elif user_is_teacher:
 					if log_entry:
 						log_entry.confirmed = False
 						log_entry.save()
@@ -308,17 +311,17 @@ def settings(request):
 				if request.POST['new-password'] == request.POST['repeat-password']:
 					user.password = make_password(request.POST['new-password'])
 					user.save()
-					return render(request,'home/settings.html',{
+					return render(request,'home/settings/base.html',{
 							'success_message':_('Новый пароль установлен')
 						}
 					)
 				else:
-					return render(request,'home/settings.html',{
+					return render(request,'home/settings/base.html',{
 							'error_message':_('Пароли не совпадают')
 						}
 					)
 			else:
-				return render(request,'home/settings.html',{
+				return render(request,'home/settings/base.html',{
 						'error_message':_('Неверный пароль!')
 					}
 				)
@@ -326,23 +329,27 @@ def settings(request):
 	else:
 		user = request.user
 
-		isUserStudent = hasattr(user,'student')
-		isUserTeacher = hasattr(user,'teacher')
+		user_is_student = hasattr(user,'student')
+		user_is_teacher = hasattr(user,'teacher')
 
-		currentSemesters = get_current_semesters()
-		currentSubjects = get_subjects_of(currentSemesters)
+		current_semesters = get_current_semesters()
+		current_subjects = get_subjects_of(current_semesters)
 
-		subjects = currentSubjects
+		subjects = current_subjects
 			
-		if isUserStudent:
-			return render(request,'home/student-settings.html',locals())
+		if user_is_student:
+			return render(request,'home/settings/student.html',locals())
 
-		elif isUserTeacher:
-			return render(request,'home/teacher-settings.html',locals())
+		elif user_is_teacher:
+			return render(request,'home/settings/teacher.html',locals())
 		else:
-			return render(request,'home/main.html',locals())
+			return render(request,'home/main/base.html',locals())
 
 def register_table(request, short_subject_name, group_name):
+	
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('home:main'))
+
 	subject = Subject.objects.filter(short_name = short_subject_name)
 	group = Group.objects.filter(name = group_name)
 	semester = None

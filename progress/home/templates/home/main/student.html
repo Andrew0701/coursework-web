@@ -1,4 +1,4 @@
-{% extends 'home/main.html' %}
+{% extends 'home/main/base.html' %}
 {% load i18n %}
 {% load filters %}
 
@@ -27,8 +27,8 @@
 										<td>{{job.name}}</td>
 										<td>
 											<input class='no-margin' id='{{job.id}}' type='checkbox' name='passed'
-												{% if job.id in passedJobsIds %}
-													checked
+												{% if job.id in passed_jobs_ids %}
+													checked="checked"
 												{% endif %}
 												{% if user.student|log_entry_confirmed:job %}
 													disabled="disabled"

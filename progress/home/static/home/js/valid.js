@@ -10,13 +10,13 @@ function delMessageAfter(element) {
 
 function errorMessageAfter(element,text) {
 	delMessageAfter(element)
-	message = $(`<span class='error'>${text}</span>`)
+	message = $("<span class='error'>" + text + "</span>");
 	$(element).after(message)
 }
 
 function successMessageAfter(element) {
 	delMessageAfter(element)
-	$(element).after(`<span class='success'>&#10003;</span>`)
+	$(element).after("<span class='success'>&#10003;</span>");
 }
 
 function validate(element,pattern,errorMessage){
@@ -52,7 +52,7 @@ function validatePassword(element) {
 }
 
 function validatePasswordConfirmation(element,id) {
-	firstPassword = $(`input[name=password][id=${id}`).val();
+	firstPassword = $("input[name=password][id=" + id).val();
 	return validate(element,RegExp('^'+firstPassword+'$'),'Пароли не совпадают')
 }
 

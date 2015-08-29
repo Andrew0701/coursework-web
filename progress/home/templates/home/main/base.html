@@ -19,6 +19,15 @@
 		{% elif user|isTeacher %}
 			{% block teacher %}{% endblock %}
 			
+		{% else %}
+
+			<script>
+				$('main').css('text-align','center')
+			</script>
+			<span>Привет</span>
+			<br>
+			<span>Это сайт чтобы отмечать лабы</span>
+
 		{% endif %}
 
 	{% endif %} {#error message#}

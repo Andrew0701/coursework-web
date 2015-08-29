@@ -2,7 +2,11 @@ function makeGroupSelect(groups) {
 	$('#group').empty()
 
 	for (i in groups){
-		$('#group').append(`<option value="${groups[i]}">${groups[i]}</option>`)
+		$('#group').append(
+            '<option value="' + groups[i] + '">'
+                + groups[i] +
+            '</option>'
+        )
 	}
 }
 
@@ -23,12 +27,12 @@ function formVisibilityToggle(){
         elem = $("input:radio:checked");
         switch (elem.val()){
             case 'student':
-                $('form[id="student"]').show();
-                $('form[id="teacher"]').hide();
+                $('form#student').show();
+                $('form#teacher').hide();
                 break;
             case 'teacher':
-                $('form[id="teacher"]').show();
-                $('form[id="student"]').hide();
+                $('form#teacher').show();
+                $('form#student').hide();
                 break;
             default:
                 break;

@@ -6,7 +6,9 @@
 		<link href="{% static 'home/logo.ico' %}" rel="icon">
 		<link href="{% static 'home/styles.css' %}" rel="stylesheet">
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
+
 		<title>{% block title %}{% endblock %}</title>
+
 		<script src="{% static 'home/js/jquery-2.1.4.min.js' %}"></script>
 		{% block scripts %}{% endblock %}
 	</head>
@@ -19,9 +21,11 @@
 					<nav>
 						{% block menu %}
 							<ul>
-								<li><a href="{% url 'home:main' %}">{% trans "Главная" %}</a></li>
-								<li><a href="{% url 'home:settings' %}">{% trans "Настройки" %}</a></li>
-								<li><a href='#'>{%trans "Статистика"%}</li>
+								{%if user.is_authenticated %}
+									<li><a href="{% url 'home:main' %}">{% trans "Главная" %}</a></li>
+									<li><a href="{% url 'home:settings' %}">{% trans "Настройки" %}</a></li>
+									<li><a href='#'>{%trans "Статистика"%}</li>
+								{% endif %}
 								{% if request.user.is_authenticated %}
 									<li><a href="{% url 'home:logout' %}">
 											{% trans "Выйти" %}
@@ -53,12 +57,15 @@
 				        {% get_available_languages as LANGUAGES %}
 				        {% get_language_info_list for LANGUAGES as languages %}			        
 				        {% for language in languages %}
-			            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
-			                {{ language.name_local }} ({{ language.code }})
+			            <option value="{{ language.code }}"
+			            		{% if language.code == LANGUAGE_CODE %}
+			            			selected="selected"
+			            		{% endif %}
+			            >
+			                	{{ language.name_local }} ({{ language.code }})
 			            </option>
 				        {% endfor %}
 				    </select>
-				    {# <input type="submit" value="{% trans "Ок" %}" /> #}
 				</form>
 				{% endblock %}
 			</footer>

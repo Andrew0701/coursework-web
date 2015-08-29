@@ -1,4 +1,4 @@
-{% extends 'home/main.html' %}
+{% extends 'home/main/base.html' %}
 {% load i18n %}
 {% load filters %}
 {% load staticfiles %}
@@ -12,7 +12,7 @@
 				<li>
 					{{subject.name}}
 					<ul>
-					{% for semester in currentSemesters %}
+					{% for semester in current_semesters %}
 						{% if subject in semester.subjects.all %}
 							<li>
 								<a href='{% url "home:register" subject.short_name semester.group.name %}'>
@@ -24,11 +24,6 @@
 					</ul>
 				</li>
 			{% endfor %}
-			<script>
-				$('.drop_down').on('click',function () {
-					$(this).children().slideToggle(100)
-				})
-			</script>
 		</ul>
 	</fieldset>
 
@@ -44,14 +39,7 @@
 									<td>{{job.name}}</td>
 								
 									<td>
-										<a href='#'
-											onclick="editJobName(
-												{% url 'home:settings' %},
-												{{job.id}},
-												'{% trans "Изменть название" %}',
-												'{{job.name}}'
-											)"
-										>
+										<a href='#' id='edit-job-name-{{job.id}}'>
 											&#9998; {# pencil #}
 										</a>
 									</td>
@@ -59,29 +47,43 @@
 									<td> {{job.short_name}} </td>
 
 									<td>
-										<a href='#'
-											onclick="editJobShortName(
-												{% url 'home:settings' %},
-												{{job.id}},
-												'{% trans "Изменть краткое название" %}',
-												'{{job.short_name}}'
-											)"
-										>
+										<a href='#' id='edit-job-short-name-{{job.id}}'>
 											&#9998; {# pencil #}
 										</a>
 									</td>
+
 									<td>
-										<a href='#'
-											onclick="deleteJob(
-												{% url 'home:settings' %},
-												{{job.id}},
-												'{% trans "Удалить" %} {{job.name}}?'
-											)"
-										>
+										<a href='#' id='delete-job-{{job.id}}'>
 											&#10005; {# cross #}
 										</a>
 									</td>
 								</tr>
+								<script>
+									//handlers
+									$('#edit-job-name-{{job.id}}').on('click', function (){
+										editJobName(
+											{% url 'home:settings' %},
+											{{job.id}},
+											'{% trans "Изменть название" %}',
+											'{{job.name}}'
+										)
+									})
+									$('#edit-job-short-name-{{job.id}}').on('click', function () {
+										editJobShortName(
+											{% url 'home:settings' %},
+											{{job.id}},
+											'{% trans "Изменть краткое название" %}',
+											'{{job.short_name}}'
+										)
+									})
+									$('#delete-job-{{job.id}}').on('click', function () {
+										deleteJob(
+											{% url 'home:settings' %},
+											{{job.id}},
+											'{% trans "Удалить" %} {{job.name}}?'
+										)
+									})
+								</script>
 							{% endfor %}
 						</table>
 					</li>

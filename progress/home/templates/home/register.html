@@ -31,10 +31,10 @@
 						<td class='centered'>
 							<input type='checkbox' class='no-margin' id='{{student.id}}-{{job.id}}'
 									{% if student|log_entry_confirmed:job %}
-										checked
+										checked='checked'
 									{% endif %}
 									{% if not request.user|isTeacher %}
-										disabled
+										disabled='disabled'
 									{% endif %}
 							>
 						</td>

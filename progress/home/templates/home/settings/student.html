@@ -1,4 +1,4 @@
-{% extends 'home/settings.html' %}
+{% extends 'home/settings/base.html' %}
 {% load i18n %}
 {% load filters %}
 
@@ -10,7 +10,7 @@
 				<input type='checkbox'
 						id='{{subject.id}}'
 						{% if subject in user.student.subjects.all %}
-							checked
+							checked='checked'
 						{% endif %}
 				>
 				{{subject.name}}
@@ -20,7 +20,7 @@
 				{% for teacher in subject.teacher_set.all %}
 					<option value='{{teacher.id}}'
 							{% if teacher == user.student|teacherOf:subject %}
-								selected
+								selected='selected'
 							{% endif %}
 					>
 						{{teacher}}

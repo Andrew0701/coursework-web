@@ -84,7 +84,7 @@ function addJob(link,subjectid,name,short_name) {
 function deleteJob(link,jobid,confirmationMessage) {
 
 	if (!confirm(confirmationMessage)){
-			return;
+		return;
 	}
 
 	ajaxSetup();
