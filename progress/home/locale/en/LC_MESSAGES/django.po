@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-23 15:57+0300\n"
+"POT-Creation-Date: 2015-08-29 18:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,10 @@ msgstr "Main"
 msgid "Настройки"
 msgstr "Settings"
 
+#: home/templates/home/base.html:24
+msgid "Статистика"
+msgstr ""
+
 #: home/templates/home/base.html:27
 msgid "Выйти"
 msgstr "Log out"
@@ -39,7 +43,7 @@ msgstr "Log in"
 msgid "Регистрация"
 msgstr "Sign up"
 
-#: home/templates/home/base.html:46
+#: home/templates/home/base.html:47
 msgid "Выберите язык"
 msgstr "Choose language"
 
@@ -82,6 +86,7 @@ msgid "Курс"
 msgstr "Course"
 
 #: home/templates/home/reg-student.html:27
+#: home/templates/home/register.html:17
 msgid "Группа"
 msgstr "Group"
 
@@ -103,6 +108,10 @@ msgstr "Student"
 #: home/templates/home/reg.html:21
 msgid "Преподаватель"
 msgstr "Teacher"
+
+#: home/templates/home/register.html:16
+msgid "Ведомость по дисциплине"
+msgstr "Register for subject"
 
 #: home/templates/home/settings.html:31
 msgid "Изменить пароль"
@@ -128,25 +137,50 @@ msgid "Предметы"
 msgstr "Subjects"
 
 #: home/templates/home/student-main.html:19
-#: home/templates/home/teacher-main.html:25
+#: home/templates/home/teacher-main.html:36
 msgid "Работы"
 msgstr "Jobs"
 
-#: home/templates/home/teacher-main.html:40
+#: home/templates/home/teacher-main.html:51
 msgid "Изменть название"
 msgstr "Edit name"
 
-#: home/templates/home/teacher-main.html:50
+#: home/templates/home/teacher-main.html:66
+msgid "Изменть краткое название"
+msgstr "Edit short name"
+
+#: home/templates/home/teacher-main.html:78
 msgid "Удалить"
 msgstr "Delete"
 
-#: home/templates/home/teacher-main.html:63
+#: home/templates/home/teacher-main.html:91
 msgid "Предмет"
 msgstr "Subject"
 
-#: home/templates/home/teacher-main.html:70
+#: home/templates/home/teacher-main.html:98
 msgid "Название"
 msgstr "Name"
+
+#: home/templates/home/teacher-main.html:100
+#: home/templates/home/teacher-main.html:118
+msgid "Кратко"
+msgstr "Shortly"
+
+#: home/templates/home/teacher-main.html:101
+msgid "Например Лаб.3"
+msgstr "E.g. Lab.3"
+
+#: home/templates/home/teacher-main.html:102
+msgid "Добавить"
+msgstr "Add"
+
+#: home/templates/home/teacher-main.html:117
+msgid "Рекомендуется заполнить все поля"
+msgstr "It is highly recommended to fill all fields"
+
+#: home/templates/home/teacher-main.html:119
+msgid "так как они используются в таблцие"
+msgstr "because they used in register table"
 
 #: home/templates/home/teacher-settings.html:23
 msgid ""
@@ -154,41 +188,73 @@ msgid ""
 "удалится информация о том, что они изучают его!"
 msgstr "Delete this subject? Each student will lost info they study it!"
 
-#: home/views.py:139 home/views.py:172
+#: home/views.py:162 home/views.py:195
 msgid "Предмет добавлен"
 msgstr "Subject added"
 
-#: home/views.py:148 home/views.py:190
+#: home/views.py:171 home/views.py:213
 msgid "Предмет удален"
 msgstr "Subject deleted"
 
-#: home/views.py:164
+#: home/views.py:187
 msgid "Преподаватель изменен"
 msgstr "Teacher changed"
 
-#: home/views.py:200
+#: home/views.py:224
 msgid "Работа добавлена"
 msgstr "Job added"
 
-#: home/views.py:206
+#: home/views.py:230
 msgid "Работа удалена"
 msgstr "Job deleted"
 
-#: home/views.py:214
+#: home/views.py:238
 msgid "Название изменено"
 msgstr "Name changed"
 
-#: home/views.py:226
+#: home/views.py:246
+msgid "Краткое название изменено"
+msgstr "Short name changed"
+
+#: home/views.py:264 home/views.py:278
+msgid "Запись добавлена"
+msgstr "Entry added"
+
+#: home/views.py:270
+msgid "Запись подтверждена"
+msgstr "Entry confirmed"
+
+#: home/views.py:294 home/views.py:300
+msgid "Запись удалена"
+msgstr "Entry deleted"
+
+#: home/views.py:312
 msgid "Новый пароль установлен"
 msgstr "New password set"
 
-#: home/views.py:231
+#: home/views.py:317
 msgid "Пароли не совпадают"
 msgstr "Passwords doesn't match"
 
-#: home/views.py:236
+#: home/views.py:322
 msgid "Неверный пароль!"
 msgstr "Wrong password!"
+
+#: home/views.py:359
+msgid "Такого предмета нет"
+msgstr "There is no such subject"
+
+#: home/views.py:361
+msgid "Этот предмет не актуален в текущем семестре"
+msgstr "There is no such subject in current semester"
+
+#: home/views.py:363
+msgid "Такой группы нет"
+msgstr "There is no such group"
+
+#: home/views.py:365
+msgid "Эта группа не изучает данный предмет"
+msgstr "This group doesn't learn specified subject"
 
 #~ msgid "Номер"
 #~ msgstr "Number"

@@ -21,11 +21,33 @@
 				{% for subject in subjects %}
 					<li>
 						{{subject.name}}
-							<ul>
+							<table class='left-border'>
 								{% for job in subject.job_set.all %}
-									<li>{{job.name}}</li>
+									<tr>
+										<td>{{job.name}}</td>
+										<td>
+											<input class='no-margin' id='{{job.id}}' type='checkbox' name='passed'
+												{% if job.id in passedJobsIds %}
+													checked
+												{% endif %}
+												{% if user.student|log_entry_confirmed:job %}
+													disabled="disabled"
+												{% endif %} 
+											>
+										</td>
+									</tr>
+									<script>
+										$('#{{job.id}}').on('click', function() {
+											toggleLogRecord(
+												{% url 'home:settings' %},
+												{{ user.student.id }},
+												{{ job.id }},
+												$(this).prop('checked')
+											)
+										})
+									</script>
 								{% endfor %}
-							</ul>
+							</table>
 					</li>
 				{% endfor %}
 			</ul>

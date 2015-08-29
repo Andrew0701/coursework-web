@@ -88,6 +88,10 @@ input, select {
 	/*margin-bottom: 5px;*/
 }
 
+input.no-margin {
+	margin: 0;
+}
+
 .error {
 	position: absolute;
 	padding: 10px;
@@ -131,6 +135,14 @@ input[type=number] {
 	width: 60px;
 }
 
+input[type=text].wide {
+	width: 300px;
+}
+
+input[type=text].short {
+	width: 100px;
+}
+
 select, option {
 	border-radius: 5px;
 	background-color: white;
@@ -167,7 +179,6 @@ form#language {
 }
 
 table {
-	border-left: 1px solid #0061a1;
 	border-spacing: 0px;
 	border-padding: 10px;
 	border-collapse: collapse;
@@ -176,10 +187,14 @@ table {
 }
 
 table td, table th{
-	text-align: center;
+	text-align: left;
 	font-size: 15px;
 	padding: 5px;
 	margin-left: 50px;
+}
+
+td.small {
+	font-size: 12px;
 }
 
 fieldset {
@@ -196,4 +211,33 @@ fieldset {
 
 .drop_down {
 	cursor: pointer;
+}
+
+.hidden {
+	display: none;
+}
+
+.centered {
+	text-align: center;
+}
+
+.bottom-border {
+	border-bottom: 1px solid #0061a1;
+}
+
+.left-border {
+	border-left: 1px solid #0061a1;
+}
+
+.right-border {
+	border-right: 1px solid #0061a1;
+}
+
+.block {
+	padding-top: 20px;
+	display: block;
+}
+
+.font14 {
+	font-size: 14px;
 }

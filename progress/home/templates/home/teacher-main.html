@@ -14,15 +14,10 @@
 					<ul>
 					{% for semester in currentSemesters %}
 						{% if subject in semester.subjects.all %}
-							<li class='drop_down'>
-								{{ semester.group.name }}
-								<table style='display:none'>
-									{% for student in semester.group.student_set.all %}
-										<tr>
-											<td> {{student}} </td>
-										</tr>
-									{% endfor %}
-								</table>
+							<li>
+								<a href='{% url "home:register" subject.short_name semester.group.name %}'>
+									{{ semester.group.name }}
+								</a>
 							</li>
 						{% endif %}
 					{% endfor %}
@@ -43,14 +38,14 @@
 				{% for subject in subjects %}
 					<li>
 						{{subject.name}}
-						<table>
+						<table class='left-border'>
 							{% for job in subject.job_set.all %}
 								<tr>
 									<td>{{job.name}}</td>
 								
 									<td>
 										<a href='#'
-											onclick="editJob(
+											onclick="editJobName(
 												{% url 'home:settings' %},
 												{{job.id}},
 												'{% trans "Изменть название" %}',
@@ -59,6 +54,23 @@
 										>
 											&#9998; {# pencil #}
 										</a>
+									</td>
+
+									<td> {{job.short_name}} </td>
+
+									<td>
+										<a href='#'
+											onclick="editJobShortName(
+												{% url 'home:settings' %},
+												{{job.id}},
+												'{% trans "Изменть краткое название" %}',
+												'{{job.short_name}}'
+											)"
+										>
+											&#9998; {# pencil #}
+										</a>
+									</td>
+									<td>
 										<a href='#'
 											onclick="deleteJob(
 												{% url 'home:settings' %},
@@ -84,18 +96,28 @@
 			</select>
 
 			<input type='text' name='name' placeholder='{% trans "Название" %}'
-					style='width: 300px'>
-			<input id='add-button' type='button' value='Добавить'>
+					class='wide'>
+			<input type='text' name='short_name' placeholder='{% trans "Кратко" %}*'
+					class='short' title='{% trans "Например Лаб.3" %}'>
+			<input id='add-button' type='button' value='{% trans "Добавить" %}'>
 
 			<script>
 				$('#add-button').on('click',function () {
 					addJob(
 						{% url "home:settings" %},
 						$('select#subject').val(),
-						$('input[name=name]').val()
+						$('input[name=name]').val(),
+						$('input[name=short_name]').val()
 					)
 				})
 			</script>
+
+			<span class='block font14'>
+				*
+				{% trans "Рекомендуется заполнить все поля" %}
+				"{% trans "Кратко" %}"
+				{% trans "так как они используются в таблцие" %}
+			</span>
 
 	</fieldset>
 {% endblock teacher %}

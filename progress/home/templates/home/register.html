@@ -1,0 +1,60 @@
+{% extends 'home/base.html' %}
+{% load i18n %}
+{% load filters %}
+{% load staticfiles %}
+
+{% block scripts %}
+	<script src="{% static "home/js/js-cookie.js" %}"></script>
+	<script src="{% static "home/js/settings.js" %}"></script>
+{% endblock %}
+
+{% block main %}
+	{% if error_message %}
+		<span class='error'> {{error_message}} </span>
+	{% else %}
+
+		<span>{% trans "Ведомость по дисциплине" %} {{subject.name}}</span><br>
+		<span>{% trans "Группа" %} {{group.name}} </span>
+		<table>
+			<tr class='bottom-border'>
+				<td class='right-border'></td>
+				{% for job in subject.job_set.all %}
+					<td class='centered'>
+						{{job.short_name}}
+					</td>
+				{% endfor %}
+			</tr>
+			{% for student in group.student_set.all %}
+				<tr>
+					<td class='right-border'> {{student}} </td>
+					{% for job in subject.job_set.all %}
+						<td class='centered'>
+							<input type='checkbox' class='no-margin' id='{{student.id}}-{{job.id}}'
+									{% if student|log_entry_confirmed:job %}
+										checked
+									{% endif %}
+									{% if not request.user|isTeacher %}
+										disabled
+									{% endif %}
+							>
+						</td>
+						{% if request.user|isTeacher %}
+							<script>
+								$('#{{student.id}}-{{job.id}}').on('click', function() {
+									toggleLogRecord(
+										{% url 'home:settings' %},
+										{{ student.id }},
+										{{ job.id }},
+										$(this).prop('checked')
+									)
+								})
+							</script>
+						{% endif %}
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		</table>
+
+	{% endif %}{# error_message #}
+
+{% endblock %}

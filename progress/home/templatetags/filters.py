@@ -1,5 +1,5 @@
 from django import template
-from ..models import Student_Subject, Subject
+from ..models import Student_Subject, Subject, Log
 
 register = template.Library()
 
@@ -13,12 +13,21 @@ def studentsOf(teacher,subject):
 
 @register.filter
 def isStudent(user):
-	return user.groups.filter(name='Students').exists()
+	return hasattr(user,'student')
 
 @register.filter
 def isTeacher(user):
-	return user.groups.filter(name='Teachers').exists()
+	return hasattr(user,'teacher')
 
 @register.filter
 def teaches(teacher,student):
 	return Student_Subject.objects.filter(teacher = teacher, student = student)
+
+@register.filter
+def split_by_row(string):
+	return string.strip().replace(' ','<br>')
+
+@register.filter
+def log_entry_confirmed(student,job):
+	log_query_set = Log.objects.filter(student = student, job = job)
+	return False if not log_query_set.exists() else log_query_set[0].confirmed

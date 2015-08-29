@@ -65,7 +65,7 @@ function changeTeacher(link,studentid,subjectid,teacherid) {
 	})
 }
 
-function addJob(link,subjectid,name) {
+function addJob(link,subjectid,name,short_name) {
 	ajaxSetup();
 	$.ajax({
 		type: 'POST',
@@ -73,6 +73,7 @@ function addJob(link,subjectid,name) {
 		data: {
 			'subjectid':subjectid,
 			'name':name,
+			'short_name':short_name,
 			'action':'add_job'
 		},
 		dataType: 'json',
@@ -99,7 +100,7 @@ function deleteJob(link,jobid,confirmationMessage) {
 	})
 }
 
-function editJob(link,jobid,promptText,defaultText) {
+function editJobName(link,jobid,promptText,defaultText) {
 
 	newName = prompt(promptText,defaultText)
 
@@ -114,9 +115,46 @@ function editJob(link,jobid,promptText,defaultText) {
 		data: {
 			'jobid':jobid,
 			'new_name':newName,
-			'action':'edit_job'
+			'action':'edit_job_name'
 		},
 		dataType: 'json',
 		success: location.reload()
+	})
+}
+
+function editJobShortName(link,jobid,promptText,defaultText) {
+
+	newShortName = prompt(promptText,defaultText)
+
+	if (newShortName == null) {
+		return;
+	}
+
+	ajaxSetup();
+	$.ajax({
+		type: 'POST',
+		url: link,
+		data: {
+			'jobid':jobid,
+			'new_short_name':newShortName,
+			'action':'edit_job_short_name'
+		},
+		dataType: 'json',
+		success: location.reload()
+	})
+}
+
+function toggleLogRecord(link,studentid,jobid,checked) {
+	ajaxSetup()
+	$.ajax({
+		type:'POST',
+		url: link,
+		data: {
+			'studentid':studentid,
+			'jobid':jobid,
+			'action': checked
+				? 'add_log_entry'
+				: 'delete_log_entry'
+		}
 	})
 }

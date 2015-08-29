@@ -10,12 +10,26 @@ from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from datetime import date
 from django import template
-from  .models import Group, Student, Teacher, Student_Subject, Subject, Job, Semester
+from  .models import Group, Student, Teacher, \
+					Student_Subject, Subject, Job, Semester, Log
 import json
 
 #making available filters in templates
 register = template.Library()
-	
+
+def get_current_semesters():
+	return list(
+			filter(
+				(lambda s : s.isCurrent()),
+				Semester.objects.all()
+			))
+
+def get_subjects_of(semesters):
+	subjects = set()
+	for semester in semesters:
+		subjects |= set(semester.subjects.all())
+	return subjects
+
 def reg(request):
 	#пользователь изменил курс (значение выпадающего списка)
 	if request.is_ajax() and request.method=='GET':
@@ -100,28 +114,21 @@ def main(request):
 	subjects = None
 	jobs = list()
 	currentSemesters = None
+	passedJobsIds = None
 
-	isUserStudent = user.groups.filter(name='Students').exists()
-	isUserTeacher = user.groups.filter(name='Teachers').exists()
+	isUserStudent = hasattr(user,'student')
+	isUserTeacher = hasattr(user,'teacher')
 
 	if isUserStudent:
 		subjects = user.student.subjects.all()
+		passedJobsIds = [log.job.id for log in Log.objects.filter(student = user.student)]
 
 	if isUserTeacher:
 		subjects = set(user.teacher.subjects.all())
-		currentSemesters = list( 
-			filter( (lambda s : s.isCurrent()), Semester.objects.all() )
-		)
-		currentSubjects = set()
-		for semester in currentSemesters:
-			currentSubjects |= set(semester.subjects.all())
+		currentSemesters = get_current_semesters()
+		currentSubjects = get_subjects_of(currentSemesters)
 
 		subjects &= currentSubjects
-
-		for subject in subjects:
-			for semester in currentSemesters:
-				if subject in semester.subjects.all():
-					print(semester.group.name)
 
 	if isUserStudent or isUserTeacher:
 		for subject in subjects:
@@ -136,6 +143,9 @@ def main(request):
 		return render(request,'home/main.html',locals())
 
 def settings(request):
+
+	isUserStudent = hasattr(request.user,'student')
+	isUserTeacher = hasattr(request.user,'teacher')
 
 	if request.method == 'POST':
 
@@ -207,7 +217,8 @@ def settings(request):
 				subject = Subject.objects.get(pk = request.POST['subjectid'])
 				Job.objects.create(
 					subject = subject,
-					name = request.POST['name']
+					name = request.POST['name'],
+					short_name = request.POST['short_name']
 				)
 
 				return HttpResponse(json.dumps(_('Работа добавлена')),content_type='application/json')
@@ -218,13 +229,75 @@ def settings(request):
 
 				return HttpResponse(json.dumps(_('Работа удалена')),content_type='application/json')
 
-			elif request.POST['action'] == 'edit_job':
+			elif request.POST['action'] == 'edit_job_name':
 
 				job = Job.objects.get(pk = request.POST['jobid'])
 				job.name = request.POST['new_name']
 				job.save()
 
 				return HttpResponse(json.dumps(_('Название изменено')),content_type='application/json')
+
+			elif request.POST['action'] == 'edit_job_short_name':
+
+				job = Job.objects.get(pk = request.POST['jobid'])
+				job.short_name = request.POST['new_short_name']
+				job.save()
+
+				return HttpResponse(json.dumps(_('Краткое название изменено')),content_type='application/json')
+
+			elif request.POST['action'] == 'add_log_entry':
+
+				studentid = request.POST['studentid']
+				jobid = request.POST['jobid']
+
+				log_query_set = Log.objects.filter(student__id = studentid, job__id = jobid)
+				log_entry = log_query_set[0] if log_query_set.exists() else None
+
+				if isUserStudent:
+					if not log_entry:
+						Log.objects.create(
+							student = request.user.student,
+							job = Job.objects.get(pk = jobid),
+							date = date.today(),
+							confirmed = False
+						)
+						return HttpResponse(json.dumps(_('Запись добавлена')),content_type='application/json')
+
+				elif isUserTeacher:
+					if log_entry:
+						log_entry.confirmed = True
+						log_entry.save()
+						return HttpResponse(json.dumps(_('Запись подтверждена')),content_type='application/json')
+					else:
+						Log.objects.create(
+							student = Student.objects.get(pk=studentid),
+							job = Job.objects.get(pk = jobid),
+							date = date.today(),
+							confirmed = True
+						)
+						return HttpResponse(json.dumps(_('Запись добавлена')),content_type='application/json')
+
+				return HttpResponse('')
+
+			elif request.POST['action'] == 'delete_log_entry':
+
+				studentid = request.POST['studentid']
+				jobid = request.POST['jobid']
+
+				log_query_set = Log.objects.filter(student__id = studentid, job__id = jobid)
+				log_entry = log_query_set[0] if log_query_set.exists() else None
+
+				if isUserStudent:
+					if log_entry:
+						if not log_entry.confirmed:
+							log_entry.delete()
+							return HttpResponse(json.dumps(_('Запись удалена')),content_type='application/json')
+
+				elif isUserTeacher:
+					if log_entry:
+						log_entry.confirmed = False
+						log_entry.save()
+						return HttpResponse(json.dumps(_('Запись удалена')),content_type='application/json')
 
 			return HttpResponse('')
 
@@ -253,15 +326,11 @@ def settings(request):
 	else:
 		user = request.user
 
-		isUserStudent = user.groups.filter(name='Students').exists()
-		isUserTeacher = user.groups.filter(name='Teachers').exists()
+		isUserStudent = hasattr(user,'student')
+		isUserTeacher = hasattr(user,'teacher')
 
-		currentSemesters = list( 
-				filter( (lambda s : s.isCurrent()), Semester.objects.all() )
-			)
-		currentSubjects = set()
-		for semester in currentSemesters:
-			currentSubjects |= set(semester.subjects.all())
+		currentSemesters = get_current_semesters()
+		currentSubjects = get_subjects_of(currentSemesters)
 
 		subjects = currentSubjects
 			
@@ -272,3 +341,27 @@ def settings(request):
 			return render(request,'home/teacher-settings.html',locals())
 		else:
 			return render(request,'home/main.html',locals())
+
+def register_table(request, short_subject_name, group_name):
+	subject = Subject.objects.filter(short_name = short_subject_name)
+	group = Group.objects.filter(name = group_name)
+	semester = None
+
+	error_message = ''
+	
+	current_semesters = get_current_semesters()
+	current_subjects = get_subjects_of(current_semesters)
+
+	subject = subject[0] if subject.exists() else None
+	group = group[0] if group.exists() else None
+
+	if not subject:
+		error_message = _('Такого предмета нет')
+	elif subject not in current_subjects:
+		error_message = _('Этот предмет не актуален в текущем семестре')
+	elif not group:
+		error_message = _('Такой группы нет')
+	elif subject not in get_subjects_of(group.semester_set.all()):
+		error_message = _('Эта группа не изучает данный предмет')
+
+	return render(request,'home/register.html',locals())

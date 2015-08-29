@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-23 15:57+0300\n"
+"POT-Creation-Date: 2015-08-29 18:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,10 @@ msgstr "Головна"
 msgid "Настройки"
 msgstr "Налаштування"
 
+#: home/templates/home/base.html:24
+msgid "Статистика"
+msgstr "Статистика"
+
 #: home/templates/home/base.html:27
 msgid "Выйти"
 msgstr "Вийти"
@@ -41,7 +45,7 @@ msgstr "Увiйти"
 msgid "Регистрация"
 msgstr "Реєстрація"
 
-#: home/templates/home/base.html:46
+#: home/templates/home/base.html:47
 msgid "Выберите язык"
 msgstr "Виберіть мову"
 
@@ -84,6 +88,7 @@ msgid "Курс"
 msgstr "Курс"
 
 #: home/templates/home/reg-student.html:27
+#: home/templates/home/register.html:17
 msgid "Группа"
 msgstr "Група"
 
@@ -105,6 +110,10 @@ msgstr "Студент"
 #: home/templates/home/reg.html:21
 msgid "Преподаватель"
 msgstr "Викладач"
+
+#: home/templates/home/register.html:16
+msgid "Ведомость по дисциплине"
+msgstr "Вiдомiсть з дисциплiни"
 
 #: home/templates/home/settings.html:31
 msgid "Изменить пароль"
@@ -130,64 +139,123 @@ msgid "Предметы"
 msgstr "Предемети"
 
 #: home/templates/home/student-main.html:19
-#: home/templates/home/teacher-main.html:25
+#: home/templates/home/teacher-main.html:36
 msgid "Работы"
 msgstr "Роботи"
 
-#: home/templates/home/teacher-main.html:40
+#: home/templates/home/teacher-main.html:51
 msgid "Изменть название"
 msgstr "Змінити назву"
 
-#: home/templates/home/teacher-main.html:50
+#: home/templates/home/teacher-main.html:66
+msgid "Изменть краткое название"
+msgstr "Змінити коротку назву"
+
+#: home/templates/home/teacher-main.html:78
 msgid "Удалить"
 msgstr "Видалити"
 
-#: home/templates/home/teacher-main.html:63
+#: home/templates/home/teacher-main.html:91
 msgid "Предмет"
 msgstr "Предмет"
 
-#: home/templates/home/teacher-main.html:70
+#: home/templates/home/teacher-main.html:98
 msgid "Название"
 msgstr "Назва"
+
+#: home/templates/home/teacher-main.html:100
+#: home/templates/home/teacher-main.html:118
+msgid "Кратко"
+msgstr "Стисло"
+
+#: home/templates/home/teacher-main.html:101
+msgid "Например Лаб.3"
+msgstr "Наприклад Лаб.3"
+
+#: home/templates/home/teacher-main.html:102
+msgid "Добавить"
+msgstr "Додати"
+
+#: home/templates/home/teacher-main.html:117
+msgid "Рекомендуется заполнить все поля"
+msgstr "Рекомендовано заповнювати усi поля"
+
+#: home/templates/home/teacher-main.html:119
+msgid "так как они используются в таблцие"
+msgstr "бо вони використовуються у таблицi"
 
 #: home/templates/home/teacher-settings.html:23
 msgid ""
 "Удалить этот предмет из преподаваемых? У каждого вашего студента так же "
 "удалится информация о том, что они изучают его!"
-msgstr "Бiльше не викладати цей предмет? Усi студенти втратять iнформацiю про те, що вивчали його!"
+msgstr ""
+"Бiльше не викладати цей предмет? Усi студенти втратять iнформацiю про те, що "
+"вивчали його!"
 
-#: home/views.py:139 home/views.py:172
+#: home/views.py:162 home/views.py:195
 msgid "Предмет добавлен"
 msgstr "Предмет додано"
 
-#: home/views.py:148 home/views.py:190
+#: home/views.py:171 home/views.py:213
 msgid "Предмет удален"
 msgstr "Предемет видалено"
 
-#: home/views.py:164
+#: home/views.py:187
 msgid "Преподаватель изменен"
 msgstr "Викладача змiнено"
 
-#: home/views.py:200
+#: home/views.py:224
 msgid "Работа добавлена"
 msgstr "Роботу додано"
 
-#: home/views.py:206
+#: home/views.py:230
 msgid "Работа удалена"
 msgstr "Роботу видалено"
 
-#: home/views.py:214
+#: home/views.py:238
 msgid "Название изменено"
 msgstr "Назву змiнено"
 
-#: home/views.py:226
+#: home/views.py:246
+msgid "Краткое название изменено"
+msgstr "Стислу назву змiнено"
+
+#: home/views.py:264 home/views.py:278
+msgid "Запись добавлена"
+msgstr "Запис додано"
+
+#: home/views.py:270
+msgid "Запись подтверждена"
+msgstr "Запис пiдтверджено"
+
+#: home/views.py:294 home/views.py:300
+msgid "Запись удалена"
+msgstr "Запис видалено"
+
+#: home/views.py:312
 msgid "Новый пароль установлен"
 msgstr "Новий пароль встановлено"
 
-#: home/views.py:231
+#: home/views.py:317
 msgid "Пароли не совпадают"
 msgstr "Паролi не збiгаються"
 
-#: home/views.py:236
+#: home/views.py:322
 msgid "Неверный пароль!"
 msgstr "Невiрний пороль!"
+
+#: home/views.py:359
+msgid "Такого предмета нет"
+msgstr "Немає такого предмету"
+
+#: home/views.py:361
+msgid "Этот предмет не актуален в текущем семестре"
+msgstr "Цей предмет не є актуальний у нинiшньому семестрi"
+
+#: home/views.py:363
+msgid "Такой группы нет"
+msgstr "Немає такої групи"
+
+#: home/views.py:365
+msgid "Эта группа не изучает данный предмет"
+msgstr "Ця група не вивчає даного предмету"
