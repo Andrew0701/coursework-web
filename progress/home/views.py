@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_protect
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.core.exceptions import *
 from datetime import date
 from django import template
 from  .models import Group, Student, Teacher, \
@@ -346,29 +346,62 @@ def settings(request):
 			return render(request,'home/main/base.html',locals())
 
 def register_table(request, short_subject_name, group_name):
-	
-	if not request.user.is_authenticated:
+
+	if request.user.is_authenticated:
+
+		if request.is_ajax():
+			if request.POST['action'] == 'change_mark':
+				log_entry = Log.objects.get(
+					student__id = request.POST['student_id'],
+					job__id = request.POST['job_id']
+				)
+				if request.POST['new_mark']:
+					log_entry.mark = int(request.POST['new_mark'])
+					log_entry.save()
+
+				return HttpResponse(json.dumps(_('Оценка изменена')),content_type='application/json')
+
+			if request.POST['action'] == 'change_date':
+				log_entry = Log.objects.get(
+					student__id = request.POST['student_id'],
+					job__id = request.POST['job_id']
+				)
+				print(log_entry.date)
+
+				log_entry.date = date(
+					year = int(request.POST['year']),
+					month = int(request.POST['month']),
+					day = int(request.POST['day'])
+				)
+				log_entry.save()
+
+				return HttpResponse(json.dumps(_('Дата изменена')),content_type='application/json')
+
+		else:
+			subject = Subject.objects.filter(short_name = short_subject_name)
+			group = Group.objects.filter(name = group_name)
+			semester = None
+
+			error_message = ''
+			
+			current_semesters = get_current_semesters()
+			current_subjects = get_subjects_of(current_semesters)
+
+			subject = subject[0] if subject.exists() else None
+			group = group[0] if group.exists() else None
+
+			if not subject:
+				error_message = _('Такого предмета нет')
+			elif subject not in current_subjects:
+				error_message = _('Этот предмет не актуален в текущем семестре')
+			elif not group:
+				error_message = _('Такой группы нет')
+			elif subject not in get_subjects_of(group.semester_set.all()):
+				error_message = _('Эта группа не изучает данный предмет')
+
+			return render(request,'home/register.html',locals())
+
+	else:
 		return HttpResponseRedirect(reverse('home:main'))
 
-	subject = Subject.objects.filter(short_name = short_subject_name)
-	group = Group.objects.filter(name = group_name)
-	semester = None
-
-	error_message = ''
 	
-	current_semesters = get_current_semesters()
-	current_subjects = get_subjects_of(current_semesters)
-
-	subject = subject[0] if subject.exists() else None
-	group = group[0] if group.exists() else None
-
-	if not subject:
-		error_message = _('Такого предмета нет')
-	elif subject not in current_subjects:
-		error_message = _('Этот предмет не актуален в текущем семестре')
-	elif not group:
-		error_message = _('Такой группы нет')
-	elif subject not in get_subjects_of(group.semester_set.all()):
-		error_message = _('Эта группа не изучает данный предмет')
-
-	return render(request,'home/register.html',locals())

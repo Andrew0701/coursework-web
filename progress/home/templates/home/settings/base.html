@@ -16,10 +16,10 @@
 		<span class='success'> {{success_message}} </span>
 	{% else %}
 
-		{% if isUserStudent %}
+		{% if user_is_student %}
 			{% block student %}{% endblock %}
 
-		{% elif isUserTeacher %}
+		{% elif user_is_teacher %}
 			{% block teacher %}{% endblock %}
 			
 		{% endif %}

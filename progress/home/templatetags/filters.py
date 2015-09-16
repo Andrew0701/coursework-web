@@ -31,3 +31,17 @@ def split_by_row(string):
 def log_entry_confirmed(student,job):
 	log_query_set = Log.objects.filter(student = student, job = job)
 	return False if not log_query_set.exists() else log_query_set[0].confirmed
+
+@register.filter
+def log_entry_mark(student,job):
+	log_query_set = Log.objects.filter(student = student, job = job)
+	return None if not log_query_set.exists() else log_query_set[0].mark
+
+@register.filter
+def log_entry_date(student,job):
+	log_query_set = Log.objects.filter(student = student, job = job)
+	return None if not log_query_set.exists() else log_query_set[0].date.strftime("%Y-%m-%d")
+
+@register.filter
+def passed(student,job):
+	return Log.objects.filter(student=student, job=job).exists()

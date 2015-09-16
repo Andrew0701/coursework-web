@@ -6,6 +6,7 @@
 {% block scripts %}
 	<script src="{% static "home/js/js-cookie.js" %}"></script>
 	<script src="{% static "home/js/settings.js" %}"></script>
+	<script src="{% static "home/js/register.js" %}"></script>
 {% endblock %}
 
 {% block main %}
@@ -14,7 +15,8 @@
 	{% else %}
 
 		<span>{% trans "Ведомость по дисциплине" %} {{subject.name}}</span><br>
-		<span>{% trans "Группа" %} {{group.name}} </span>
+		<span>{% trans "Группа" %} {{group.name}} </span><br>
+
 		<table>
 			<tr class='bottom-border'>
 				<td class='right-border'></td>
@@ -37,6 +39,11 @@
 										disabled='disabled'
 									{% endif %}
 							>
+							<span class='font12'>
+								{% if student|log_entry_mark:job %}
+									{{student|log_entry_mark:job}}
+								{% endif %}
+							</span>
 						</td>
 						{% if request.user|isTeacher %}
 							<script>
@@ -51,6 +58,71 @@
 							</script>
 						{% endif %}
 					{% endfor %}
+					<td class='font14'>
+						<a href='#' id='pencil{{student.id}}'> &#9998; </a> {# pencil #}
+						<div id='editor{{student.id}}' class='hidden centered popup'>
+							<span>{{student}}</span>
+							<span> - {{subject.short_name}} </span>
+							<table  class='editor'>
+								{% for job in subject.job_set.all %}
+									<tr id='job{{job.id}}'>
+										<td class='font14'> {{job.name}} </td>
+										<td>
+											<input type='number' min='0' max='100'
+												placeholder='{% trans "Оценка" %}'
+												id='mark-for{{job.id}}of{{student.id}}'
+												{% if student|log_entry_confirmed:job %}
+													value='{{ student|log_entry_mark:job }}'
+												{% else %}
+													disabled='disabled'
+												{% endif %}
+
+											>
+										</td>
+										<td>
+											<input type='date' id='date-for{{job.id}}of{{student.id}}'
+												{% if student|log_entry_confirmed:job %}
+													value='{{ student|log_entry_date:job }}'
+												{% else %}
+													disabled='disabled'
+												{% endif %}
+											>
+										</td>
+										<script>
+											$('#mark-for{{job.id}}of{{student.id}}').on('keyup mouseup', function() {
+												changeMark(
+													'{% url "home:register" subject.short_name group.name %}',
+													{{student.id}},
+													{{job.id}},
+													$(this).val()											
+												)
+											})
+											$('#date-for{{job.id}}of{{student.id}}').on('change', function() {
+												changeDate(
+													'{% url "home:register" subject.short_name group.name %}',
+													{{student.id}},
+													{{job.id}},
+													$(this).val()
+												)
+											})
+										</script>
+									</tr>
+								{% endfor %}
+							</table>
+							<input id='edit-ok-{{student.id}}' type='button' value='OK'>
+							<script>
+								$('#edit-ok-{{student.id}}').on('click',function(){
+										$("#editor{{student.id}}").fadeOut(300);
+										setTimeout(function(){location.reload()},300)
+									})
+							</script>
+						</div>
+						<script>
+							$('#pencil{{student.id}}').on('click', function () {
+								$('#editor{{student.id}}').fadeIn(300)
+							})
+						</script>
+					</td>
 				</tr>
 			{% endfor %}
 		</table>
