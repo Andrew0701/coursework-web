@@ -1,22 +1,24 @@
 function delMessageAfter(element) {
 
-	nextElementClass = element.next().attr('class')
+	$(element).parent("div").removeAttr("class")
 
-	if (nextElementClass == 'error'
-		|| nextElementClass == 'success') {
+	if (element.next().is("span")) {
 		element.next().remove()
 	}
 }
 
 function errorMessageAfter(element,text) {
 	delMessageAfter(element)
-	message = $("<span class='error'>" + text + "</span>");
+	$(element).parent("div").attr("class", "form-group has-error has-feedback")
+	message = $("<span class='glyphicon glyphicon-remove form-control-feedback' aria-hidden='true'></span>")
 	$(element).after(message)
 }
 
 function successMessageAfter(element) {
 	delMessageAfter(element)
-	$(element).after("<span class='success'>&#10003;</span>");
+	$(element).parent("div").attr("class", "form-group has-success has-feedback")
+	message = $("<span class='glyphicon glyphicon-ok form-control-feedback' aria-hidden='true'></span>")
+	$(element).after(message)
 }
 
 function validate(element,pattern,errorMessage){

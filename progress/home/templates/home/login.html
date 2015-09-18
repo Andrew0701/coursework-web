@@ -4,16 +4,27 @@
 {% block title %} {% trans "Войти" %} {% endblock %}
 
 {% block main %}
-	<script>
-		$('main').css('text-align', 'center');
-	</script>
 
-	<span>{% trans "Вход в систему" %}</span>
-	<br>
-	<form action="{% url 'home:login' %}" method="POST">
-		{% csrf_token %}
-		<input type="text"		name='login' 	placeholder='{% trans "Логин" %}'>	<br>
-		<input type="password"	name='password' placeholder='{% trans "Пароль" %}'>	<br>
-		<input type="submit" value='{% trans "Войти" %}'>
-	</form>
+<div class="page-header">
+	<h2 class="col-lg-offset-1">{% trans "Вход в систему" %}</h2>
+</div>
+
+{% if error_message %}
+	<div class="alert alert-danger login-alert" role="alert">{{error_message}}</div> 
+{% endif %}
+
+<form class="form-signin" action="{% url 'home:login' %}" method="POST">
+	{% csrf_token %}
+	<div class="form-group">
+		<label class="control-label" for="login">{% trans "Логин" %}</label>
+		<input class="form-control" type="text" id="login" name='login'>
+	</div>	
+	<div class="form-group">
+		<label class="control-label" for="password">{% trans "Пароль" %}</label>
+		<input class="form-control" type="password" id="password" name='password'>
+	</div>
+	<div class="form-group">
+		<input type="submit" class="btn btn-primary" value='{% trans "Войти" %}'>
+	</div>
+</form>
 {% endblock %}

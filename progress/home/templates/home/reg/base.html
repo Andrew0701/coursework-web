@@ -10,12 +10,11 @@
 {% endblock %}
 
 {% block main %}
-	<script>
-		$('main').css('text-align', 'center');
-	</script>
 	
-	<span> {% trans "Регистрация" %} </span>
-		<form name="person">
+<div class="page-header">
+	<h2 class="col-lg-offset-1">{% trans "Регистрация" %}</h2>
+</div>
+		<form name="person" class="form-registration">
 			<span>{% trans "Студент" %}</span>
 			<input type='radio' name='who' value='student' checked='true'>
 			<span>{% trans "Преподаватель" %}</span>

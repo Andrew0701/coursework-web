@@ -24,20 +24,28 @@
 			
 		{% endif %}
 
+		<div class="page-header">
+			<h3>{% trans "Изменить пароль" %}</h3>
+		</div>
 		<form action="{% url 'home:settings' %}" method="post">
-		{% csrf_token %}
-			<fieldset>
-
-				<legend>{% trans "Изменить пароль" %} </legend>
-				
-					<input name='old-password' type='password' placeholder='{% trans "Старый пароль" %}'><br>
-					<input name='new-password' type='password' placeholder='{% trans "Новый пароль" %}'><br>
-					<input name='repeat-password' type='password' placeholder='{% trans "Повторить пароль" %}'><br>
-					<input type='submit' value='{% trans "Изменить" %}'>
-				
-			</fieldset>
+			{% csrf_token %}
+			<div class="form-group">
+				<label class="control-label" for="old-password">{% trans "Старый пароль" %}</label>
+				<input class="form-control" id="old-password" name='old-password' type='password'>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="new-password">{% trans "Новый пароль" %}</label>
+				<input class="form-control" id="new-password" name='new-password' type='password'>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="repeat-password">{% trans "Повторить пароль" %}</label>
+				<input class="form-control" id="repeat-password" name='repeat-password' type='password' >
+			</div>
+			<div class="form-group">
+				<input type='submit' class="btn btn-primary" value='{% trans "Изменить" %}'>
+			</div>
 		</form>
 
-	{% endif %} {#error message#}
+		{% endif %} {#error message#}
 
 {% endblock %}
