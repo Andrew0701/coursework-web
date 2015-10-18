@@ -1,6 +1,6 @@
 function delMessageAfter(element) {
 
-	$(element).parent("div").removeAttr("class")
+	
 
 	if (element.next().is("span")) {
 		element.next().remove()
@@ -61,7 +61,7 @@ function validatePasswordConfirmation(element,id) {
 var all_checking = {};
 
 function block_submit_student(){
-    
+
     var count_right_values = 0;
     var need_count_right = 7;   //Необходимое количество правильно заполненнных полей
     for (var val in all_checking){
@@ -69,7 +69,7 @@ function block_submit_student(){
             count_right_values++;
         }
     }
-    if (count_right_values >= need_count_right){ 
+    if (count_right_values >= need_count_right){
         $('input[type=submit]').prop('disabled',false);
     }else{
         $('input[type=submit]').prop('disabled',true);
@@ -79,7 +79,7 @@ function block_submit_student(){
 function listener_on_change(){
     $('#reg_student').prop('disabled',true);
     $('#reg_student').mouseover(give_the_massiv);
-    
+
 }
 
 function give_the_massiv(){

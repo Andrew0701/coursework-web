@@ -1,0 +1,31 @@
+{% extends 'home/base.html' %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %} {% trans "Регистрация: шаг " %} 1 {% endblock %}
+
+{% block scripts %}
+	<script src="{% static "home/js/valid.js" %}"></script>
+{% endblock %}
+
+{% block main %}
+	<script>
+		$('main').css('text-align', 'center');
+	</script>
+
+	<span> {% trans "Регистрация: шаг " %}1 </span>
+
+	<form name="person" action="{% url 'home:reg_firstStep' %}" method="post">
+		{% csrf_token %}
+		<input type="email" name="email"		placeholder="{% trans "E-mail" %}"
+			oninput='validateEmail($(this))'>
+		<br>
+        <input id = 'reg_email' type="submit" value="{% trans "Зарегистрироваться" %}"
+            disabled="true">
+	</form>
+
+	{% block mess %}
+		<br><br>
+		{{successMessage}}
+	{% endblock %}
+{% endblock %}
