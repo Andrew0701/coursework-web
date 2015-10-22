@@ -1,0 +1,44 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 100px;
+}
+.navbar-brand {
+	padding: 0;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #f5f5f5;
+}
+form {
+	max-width: 300px;
+}
+.form-signin, .form-registration {
+	margin: auto;
+}
+.language-changer{
+	width: auto;
+}
+.panel {
+	margin-bottom: 5px;
+}
+form#teacher {
+	display: none;
+}
+.set-job-checkbox, .set-subject-checkbox {
+	font-weight: normal;
+}
+input[type=checkbox] {
+	width: 17px;
+	height: 17px;
+}
+.login-alert {
+	max-width: 500px;
+	margin: auto;
+	margin-bottom: 20px;
+}

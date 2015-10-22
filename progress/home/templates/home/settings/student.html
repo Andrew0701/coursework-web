@@ -3,32 +3,48 @@
 {% load filters %}
 
 {% block student %}
-	<fieldset>
-		<legend>{% trans "Предметы" %}</legend>
+<div class="page-header">
+	<h3>{% trans "Предметы" %}</h3>
+</div>
+<table class="table table-bordered table-condensed table-striped table-hover ">
+	<thead>
+		<tr>
+			<th>Выбрать</th>
+			<th>Название предмета</th>
+			<th>Преподаватель</th>
+		</tr>
+	</thead>
+	<tbody>
 		{% for subject in subjects %}
-			<label>
+		<tr>
+			<td>
 				<input type='checkbox'
-						id='{{subject.id}}'
-						{% if subject in user.student.subjects.all %}
-							checked='checked'
-						{% endif %}
+				id='{{subject.id}}'
+				{% if subject in user.student.subjects.all %}
+				checked='checked'
+				{% endif %}
 				>
-				{{subject.name}}
-			</label>
-			&nbsp;
-			<select data-subjectid='{{subject.id}}'>
-				{% for teacher in subject.teacher_set.all %}
+			</td>
+			<td>
+				<label for="{{subject.id}}" class="set-subject-checkbox">
+					{{subject.name}}
+				</label>
+			</td>
+			<td>
+				<select class="form-control" data-subjectid='{{subject.id}}'>
+					{% for teacher in subject.teacher_set.all %}
 					<option value='{{teacher.id}}'
-							{% if teacher == user.student|teacherOf:subject %}
-								selected='selected'
-							{% endif %}
+					{% if teacher == user.student|teacherOf:subject %}
+					selected='selected'
+					{% endif %}
 					>
-						{{teacher}}
-					</option>
+					{{teacher}}
+				</option>
 				{% endfor %}
 			</select>
-			<br>
-			<script>
+		</td>
+	</tr>
+	<script>
 				// handlers
 
 				$('input#{{subject.id}}').on('click',function() {
@@ -38,7 +54,7 @@
 						$(this).attr('id'),									{# subject id #}
 						$('select[data-subjectid={{subject.id}}]').val(), 	{# teacher id #}
 						$(this).prop('checked')
-					)
+						)
 				})
 
 				$('select[data-subjectid={{subject.id}}]').on('change',function(){
@@ -47,9 +63,9 @@
 						{{user.student.id}},
 						$(this).attr('data-subjectid'),
 						$(this).val()
-					)
+						)
 				})
 			</script>
-		{% endfor %}
-	</fieldset>
-{% endblock %}
+			{% endfor %}
+		</table>
+		{% endblock %}

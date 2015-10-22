@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url,include
 from . import views
 
 urlpatterns = [
@@ -12,5 +12,6 @@ urlpatterns = [
 		'(?P<group_name>.+-\d{2}\w)$',
 		views.register_table, name='register'
 	),
-	url(r'^statistics/(?P<student_id>\d+)$',views.statistics,name='statistics')
+	# url(r'^captcha/', include('captcha.urls')),
+	url(r'^statistics/(?P<student_id>\d+)$',views.statistics,name='statistics'),
 ]

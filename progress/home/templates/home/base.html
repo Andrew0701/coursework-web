@@ -2,79 +2,98 @@
 {% load staticfiles %}
 <!doctype html>
 <html>
-	<head>
-		<link href="{% static 'home/logo.ico' %}" rel="icon">
-		<link href="{% static 'home/styles.css' %}" rel="stylesheet">
-		<link rel="icon" href="favicon.ico" type="image/x-icon">
+<head>
+	<link href="{% static 'home/logo.ico' %}" rel="icon">
+	<!--<link href="{% static 'home/styles.css' %}" rel="stylesheet">-->
+	<link href="{% static 'home/css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'home/css/custom-style.css' %}" rel="stylesheet">
+	<link href="{% static 'home/css/alertify.core.css' %}" rel="stylesheet">
+	<link href="{% static 'home/css/alertify.bootstrap.css' %}" rel="stylesheet">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
 
-		<title>{% block title %}{% endblock %}</title>
+	<title>{% block title %}{% endblock %}</title>
 
-		<script src="{% static 'home/js/jquery-2.1.4.min.js' %}"></script>
-		{% block scripts %}{% endblock %}
-	</head>
-
-	<body>
-		<div class='wrapper'>
-			<header>
-				{% block header %}
-					<img id="logo" src="{% static 'home/logo.png' %}">
-					<nav>
-						{% block menu %}
-							<ul>
-								{%if user.is_authenticated %}
-									<li><a href="{% url 'home:main' %}">{% trans "Главная" %}</a></li>
-									<li><a href="{% url 'home:settings' %}">{% trans "Настройки" %}</a></li>
-									{% if user_is_student %}
-										<li>
-											<a href='{% url "home:statistics" user.student.id %}'>
-												{%trans "Статистика"%}
-											</a>
-										</li>
-									{% endif %}
-								{% endif %}
-								{% if request.user.is_authenticated %}
-									<li><a href="{% url 'home:logout' %}">
-											{% trans "Выйти" %}
-											<sub>[{{request.user.username}}]</sub>
-										</a>
-									</li>
-								{% else %}
-									<li><a href="{% url 'home:login' %}">{% trans "Войти" %}</a></li>
-									<li><a href="{% url 'home:reg' %}">{% trans "Регистрация" %}</a></li>
-								{% endif %}
-							</ul>
-						{% endblock %}
-					</nav>
-				{% endblock %}
-			</header>
-			<main>
-				{% block main %}
-				{% endblock %}
-				<br><br>
-			</main>
-			<footer>
-				{% block footer %}
-				<span>{% trans "Выберите язык" %}:</span>
-				<form id='language' action="{% url 'set_language' %}" method="post">
-				{% csrf_token %}
-				    <input name="next" type="hidden" value="{{ redirect_to }}" />
-				    <select name="language" onchange="this.form.submit()">
-						{% get_current_language as LANGUAGE_CODE %}
-				        {% get_available_languages as LANGUAGES %}
-				        {% get_language_info_list for LANGUAGES as languages %}			        
-				        {% for language in languages %}
-			            <option value="{{ language.code }}"
-			            		{% if language.code == LANGUAGE_CODE %}
-			            			selected="selected"
-			            		{% endif %}
-			            >
-			                	{{ language.name_local }} ({{ language.code }})
-			            </option>
-				        {% endfor %}
-				    </select>
-				</form>
-				{% endblock %}
-			</footer>
+	<script src="{% static 'home/js/jquery-2.1.4.min.js' %}"></script>
+	<script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'home/js/alertify.min.js' %}"></script>
+	
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+	<script src="{% static "home/js/botOrNot.js" %}"></script>
+	{% block scripts %}{% endblock %}
+</head>
+<body>
+	<header>
+		{% block header %}
+		<nav>
+			{% block menu %}
+			<nav class="navbar navbar-default">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+						</button>
+						<a class="navbar-brand" href="{% url 'home:main' %}"><img id="logo" src="{% static 'home/logo.png' %}"></a>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li><a href="{% url 'home:main' %}">{% trans "Главная" %} <span class="sr-only">(current)</span></a></li>
+							{%if user.is_authenticated %}
+							<li><a href="{% url 'home:settings' %}">{% trans "Настройки" %}</a></li>
+							<li><a href="#">{%trans "Статистика"%}</a></li>
+							{% endif %}
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							{% if request.user.is_authenticated %}
+							<li><a href="{% url 'home:logout' %}">{% trans "Выйти" %}<sub> [{{request.user.username}}]</sub></a></li>
+							{% else %}
+							<li><a href="{% url 'home:login' %}">{% trans "Войти" %}</a></li>
+							<li><a href="{% url 'home:reg' %}">{% trans "Регистрация" %}</a></li>
+						</ul>
+						{% endif %}
+					</div>
+				</div>
+			</nav>
+			<script>
+				$("a[href='{{request.path}}'").parent("li").attr("class", "active");
+			</script>
+			{% endblock %}
+		</nav>
+		{% endblock %}
+	</header>
+	<main>
+		<div class="container">
+			{% block main %}
+			{% endblock %}
 		</div>
-	</body>
+	</main>
+	<footer class="footer">
+		<div class="container">
+			{% block footer %}
+			<form id='language' action="{% url 'set_language' %}" method="post">
+				{% csrf_token %}
+				<label for="select" class="col-xs-4 control-label">{% trans "Выберите язык" %}:</label>
+				<div class="form-group">
+					<input name="next" type="hidden" value="{{ redirect_to }}" />
+					<div class="col-xs-1">
+						<select name="language" class="form-control language-changer" onchange="this.form.submit()">
+							{% get_current_language as LANGUAGE_CODE %}
+							{% get_available_languages as LANGUAGES %}
+							{% get_language_info_list for LANGUAGES as languages %}
+							{% for language in languages %}
+							<option value="{{ language.code }}"
+							{% if language.code == LANGUAGE_CODE %}
+							selected="selected"
+							{% endif %}
+							>
+							{{ language.name_local }} ({{ language.code }})
+						</option>
+						{% endfor %}
+						</select>
+					</div>
+				</div>
+			</form>
+			{% endblock %}
+		</div>
+	</footer>
+</body>
 </html>

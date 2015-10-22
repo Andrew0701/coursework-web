@@ -3,53 +3,71 @@
 {% load filters %}
 
 {% block student %}
-	<span> {{ user.student.name }} {{ user.student.surname }}</span>
-	<fieldset>
-		<legend>{% trans "Предметы" %}</legend>
-		<ul>
-			{% for subject in subjects %}
-				<li>
-					{{subject.name}} ( {{ user.student|teacherOf:subject }} )
-				</li>
-			{% endfor %}
-		</ul>
-	</fieldset>
+<blockquote class="blockquote-reverse">
+	{{ user.student.name }} {{ user.student.surname }}
+</blockquote>
 
-	<fieldset>
-		<legend>{% trans "Работы" %}</legend>
-			<ul class='outer'>
-				{% for subject in subjects %}
-					<li>
-						{{subject.name}}
-							<table class='left-border'>
-								{% for job in subject.job_set.all %}
-									<tr>
-										<td>{{job.name}}</td>
-										<td>
-											<input class='no-margin' id='{{job.id}}' type='checkbox' name='passed'
-												{% if job.id in passed_jobs_ids %}
-													checked="checked"
-												{% endif %}
-												{% if user.student|log_entry_confirmed:job %}
-													disabled="disabled"
-												{% endif %} 
-											>
-										</td>
-									</tr>
-									<script>
-										$('#{{job.id}}').on('click', function() {
-											toggleLogRecord(
-												{% url 'home:settings' %},
-												{{ user.student.id }},
-												{{ job.id }},
-												$(this).prop('checked')
-											)
-										})
-									</script>
-								{% endfor %}
-							</table>
-					</li>
+<div class="page-header">
+	<h3>{% trans "Предметы" %}</h3>
+</div>
+{% for subject in subjects %}
+<span class="glyphicon glyphicon-menu-right">
+	{{subject.name}} ( {{ user.student|teacherOf:subject }} )
+</span>
+<br>
+{% endfor %}
+	
+
+
+
+<div class="page-header">
+	<h3>{% trans "Работы" %}</h3>
+</div>
+{% for subject in subjects %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+			<a data-toggle="collapse" data-parent="#collapse-group" href='#{{subject.short_name}}'>{{subject.name}}</a>
+			</h4>
+		</div>
+
+		<div id='{{subject.short_name}}' class="panel-collapse collapse">
+			<div class="panel-body">
+				{% for job in subject.job_set.all %}
+				<label class="set-job-checkbox">
+					<input class='no-margin' id='{{job.id}}' type='checkbox' name='passed'
+						{% if job.id in passed_jobs_ids %}
+							checked="checked"
+						{% endif %}
+						{% if user.student|log_entry_confirmed:job %}
+							disabled="disabled"
+						{% endif %} 
+					>
+					{{job.name}}
+					</label>
+					<br>
+					<script>
+						$('#{{job.id}}').on('click', function() {
+							toggleLogRecord(
+								{% url 'home:settings' %},
+								{{ user.student.id }},
+								{{ job.id }},
+								$(this).prop('checked')
+							);
+							if ($(this).prop('checked')) {
+								alertify.log("Работа <b>{{job.name}}</b> отмечена как <b>сданная</b>.");
+							} else {
+								alertify.log("Работа <b>{{job.name}}</b> отмечена как <b>несданная</b>.");
+							}
+						})
+					</script>										
 				{% endfor %}
-			</ul>
-	</fieldset>
+			</div>
+		</div>
+	</div>					
+{% endfor %}
+
+
+
+
 {% endblock student %}

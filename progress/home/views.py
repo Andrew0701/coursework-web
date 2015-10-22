@@ -151,11 +151,11 @@ def log_in(request):
 				login(request,user)
 				return HttpResponseRedirect(reverse('home:main'))
 			else:
-				return render(request, 'home/main/base.html', {
+				return render(request, 'home/login.html', {
 					'error_message':'Ваш аккаунт заблокирован'
 					}
 				)
-		return render(request,'home/main/base.html',{
+		return render(request,'home/login.html',{
 			'error_message':'Неверный логин или пароль'
 			}
 		)

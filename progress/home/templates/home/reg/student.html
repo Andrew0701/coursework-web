@@ -1,41 +1,53 @@
 {% load i18n %}
 
-<form id='student' action="{% url 'home:reg' %}" method="POST">
+<form id='student' class="form-registration" action="{% url 'home:reg' %}" method="POST">
 	{% csrf_token %}
-		<input class='student_reg' type="text" name="login"		placeholder="{% trans "Логин" %}"
+		<label class="control-label" for="login">{% trans "Логин" %}</label>
+	<div class="form-group">
+		<input class='form-control' type="text" id="login" name="login"		placeholder="{% trans "Логин" %}"
 			oninput='validateLogin($(this))'>
-		<br>
-		<input class='student_reg' type="email"name="email"		placeholder="{% trans "E-mail" %}"
+	</div>
+		<label class="control-label" for="email">{% trans "E-mail" %}</label>
+	<div class="form-group">
+		<input class='form-control' type="email" id="email" name="email"		placeholder="{% trans "E-mail" %}"
 			oninput='validateEmail($(this))'>
-		<br>
-		<input class='student_reg' type="text" name="surname"	placeholder="{% trans "Фамилия" %}"
+	</div>
+		<label class="control-label" for="surname">{% trans "Фамилия" %}</label>
+	<div class="form-group">
+		<input class='form-control' type="text" id="surname" name="surname"	placeholder="{% trans "Фамилия" %}"
 			oninput='validateWord($(this))'>
-		<br>
-		<input class='student_reg' type="text" name="name"		placeholder="{% trans "Имя" %}"
+	</div>
+
+		<label class="control-label" for="name">{% trans "Имя" %}</label>
+	<div class="form-group">
+		<input class='form-control' type="text"  id="name" name="name"		placeholder="{% trans "Имя" %}"
 			oninput='validateWord($(this))'>
-		<br>
-		<input class='student_reg' type="text" name="patronymic"placeholder="{% trans "Отчество" %}"
-			oninput='validateWord($(this))'>
-		<br>
+	</div>
+
+		<label class="control-label" for="login">{% trans "Отчество" %}</label>
+	<div class="form-group">
+		<input class='form-control' type="patronymic" id="patronymic" name="patronymic" placeholder="{% trans "Отчество" %}" oninput='validateWord($(this))'>
+	</div>
 
 		<span>{% trans "Курс" %}:</span>
-		<select id="year" name="year" onchange="loadGroupsFrom({% url 'home:reg' %})">
+		<select id="year" class="form-control" name="year" onchange="loadGroupsFrom({% url 'home:reg' %})">
 			{% for year in years %}
 				<option value="{{year}}">{{year}}</option>
 			{% endfor %}
 		</select>
 		<span>{% trans "Группа" %}:</span>
-		<select id="group" name="group">
+		<select id="group" class="form-control" name="group">
 			<script>loadGroupsFrom({% url 'home:reg' %})</script>
 		</select>
 		<br>
-		<input class='student_reg' type="password" placeholder="{% trans "Пароль" %}" name="password"
+		<input class='student_reg form-control' type="password" placeholder="{% trans "Пароль" %}" name="password"
 			id="student"
 			oninput='validatePassword($(this))'>
 		<br>
-		<input class='student_reg' type="password" name = 'password_rep' placeholder="{% trans "Повторить пароль" %}"
+		<input class='student_reg form-control' type="password" name = 'password_rep' placeholder="{% trans "Повторить пароль" %}"
 			oninput='validatePasswordConfirmation($(this),"student")'>
 		<br>
 		<input type="hidden" name="user_type" value="student">
+		<div class="form-group g-recaptcha" data-sitekey="6LeqAQ8TAAAAADlYhA7DjH54shULLYVTYHb_q56l"></div>
 		<input id = 'reg_student' type="submit" value="{% trans "Зарегистрироваться" %}">
 </form>
