@@ -24,7 +24,13 @@
 								{%if user.is_authenticated %}
 									<li><a href="{% url 'home:main' %}">{% trans "Главная" %}</a></li>
 									<li><a href="{% url 'home:settings' %}">{% trans "Настройки" %}</a></li>
-									<li><a href='#'>{%trans "Статистика"%}</li>
+									{% if user_is_student %}
+										<li>
+											<a href='{% url "home:statistics" user.student.id %}'>
+												{%trans "Статистика"%}
+											</a>
+										</li>
+									{% endif %}
 								{% endif %}
 								{% if request.user.is_authenticated %}
 									<li><a href="{% url 'home:logout' %}">

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import *
-from datetime import date
+from datetime import date, timedelta
 from django import template
 from  .models import Group, Student, Teacher, \
 					Student_Subject, Subject, Job, Semester, Log
@@ -24,11 +24,66 @@ def get_current_semesters():
 				Semester.objects.all()
 			))
 
+def get_current_semester_for(student):
+	current_semester = list(
+		filter(
+			lambda s : s.group == student.group,
+			get_current_semesters()
+		)
+	)
+	return current_semester[0] if current_semester else None
+
 def get_subjects_of(semesters):
 	subjects = set()
 	for semester in semesters:
 		subjects |= set(semester.subjects.all())
 	return subjects
+
+def how_much_passed(student,semester,week_num):
+	week = timedelta(weeks = 1)
+	logs = Log.objects.filter(
+		student = student,
+		date__gte = semester.start_date + (week * week_num) - week,
+		date__lt = semester.start_date + (week * week_num)
+	)
+	return logs.count()
+
+def weeks_in(semester):
+	return (semester.end_date - semester.start_date).days // 7
+
+def current_week_of(semester):
+	elapsed_days = (date.today() - semester.start_date).days
+	elapsed_weeks = elapsed_days // 7
+	return elapsed_weeks + 1
+
+def make_plan(jobs_total_count, semester, weeks_statistics):
+	next_week_num = current_week_of(semester) + 1
+	jobs_left = jobs_total_count - sum(weeks_statistics)
+	days_left = (semester.end_date - date.today()).days
+	weeks_left = weeks_in(semester) - current_week_of(semester)
+	per_week = jobs_left // weeks_left
+
+	plan = list()
+	for week_num in range(1,weeks_in(semester)+1):
+		if week_num < next_week_num:
+			plan.append( None )
+		else:
+			plan.append( per_week )
+
+	first_step_sum = sum(map(lambda x : 0 if x is None else x,plan))
+	diff = jobs_left - first_step_sum
+	
+	week_num = next_week_num - 1
+	while diff > 0:
+		plan[week_num] += 1
+		diff -= 1
+		week_num += 1
+
+	#connection of lines
+	current_week = current_week_of(semester)
+	plan[current_week-1] = weeks_statistics[current_week-1]
+
+	return plan 
 
 def reg(request):
 	#пользователь изменил курс (значение выпадающего списка)
@@ -404,4 +459,39 @@ def register_table(request, short_subject_name, group_name):
 	else:
 		return HttpResponseRedirect(reverse('home:main'))
 
+def statistics(request,student_id):
+
+	student = get_object_or_404(Student, pk = student_id)
+	current_semester = get_current_semester_for(student)
+	days_left = (current_semester.end_date - date.today()).days
+	weeks_left = weeks_in(current_semester) - current_week_of(current_semester)
+
+	jobs_passed_count = student.jobs.count()
+	jobs_total_count = sum( subject.job_set.count() for subject in student.subjects.all() )
+	jobs_passed_percents = '%.2f' % (jobs_passed_count/jobs_total_count * 100) if jobs_total_count != 0 else 0
+	jobs_left = jobs_total_count - jobs_passed_count
+
+	if request.is_ajax():
+
+		weeks_in_current_semester = weeks_in(current_semester)
+
+		labels = list(range(1,weeks_in_current_semester+1))
+		weeks_statistics = list()
+
+		for week_num in range(1,weeks_in_current_semester+1):
+			if week_num <= current_week_of(current_semester):
+				weeks_statistics.append( how_much_passed(student,current_semester,week_num) )
+
+		plan = make_plan(jobs_total_count, current_semester, weeks_statistics)
+
+		data = {
+			'labels' : labels,
+			'dataset' : weeks_statistics,
+			'plan' : plan
+		}
+
+		return HttpResponse(json.dumps(data), content_type='application/json')
 	
+	
+
+	return render(request,'home/statistics.html',locals())

@@ -12,4 +12,5 @@ urlpatterns = [
 		'(?P<group_name>.+-\d{2}\w)$',
 		views.register_table, name='register'
 	),
+	url(r'^statistics/(?P<student_id>\d+)$',views.statistics,name='statistics')
 ]

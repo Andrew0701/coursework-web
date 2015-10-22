@@ -1,0 +1,37 @@
+{% extends "home/base.html" %}
+{% load i18n %}
+{% load filters %}
+{% load staticfiles %}
+
+{% block scripts %}
+	<script src="{% static 'home/js/js-cookie.js' %}"></script>
+	<script src='{% static "home/js/Chart.min.js" %}'></script>
+	<script src='{% static "home/js/statistics.js" %}'></script>
+{% endblock %}
+
+
+{% block main %}
+	<span>{{student}}</span><br>
+	<span>Сдано работ: 
+		{{ jobs_passed_count }}/{{ jobs_total_count }} ({{ jobs_passed_percents }}%)
+	</span>
+	<br>
+	<span>
+		Осталось сдать:
+		{{ jobs_left }}
+	</span>
+	<br>
+	<span>
+		Осталось времени:
+		{{ days_left }} {{ days_left|get_days_plural }} /
+		{{ weeks_left }} {{ weeks_left|get_weeks_plural }}
+	</span>
+
+	<canvas id='statistics'></canvas>
+
+	<script>
+		buildChart('{% url "home:statistics" student.id %}'	);
+		
+	</script>
+
+{% endblock main %}
