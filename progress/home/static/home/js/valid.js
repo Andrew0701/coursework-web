@@ -7,6 +7,7 @@ delMessageAfter = function(element) {
   if (element.next().is('span')) {
     element.next().remove();
   }
+  
 };
 
 errorMessageAfter = function(element, text) {
@@ -14,6 +15,7 @@ errorMessageAfter = function(element, text) {
   delMessageAfter(element);
   $(element).parent('div').attr('class', 'form-group has-error has-feedback');
   message = $('<span class=\'glyphicon glyphicon-remove form-control-feedback\' aria-hidden=\'true\'></span>');
+  $('[data-toggle="popover"]').popover('show');
   $(element).after(message);
 };
 
