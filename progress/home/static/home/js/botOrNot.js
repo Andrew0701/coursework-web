@@ -3,7 +3,7 @@ function botOrNot(){
 
     $.ajax({
         url: 'https://www.google.com/recaptcha/api/siteverify',
-        type: "POST",
+        type: "GET",
         data: {
             secret:"6LeqAQ8TAAAAAD-S6bEsThBycfpjMsf-ph0qYsXF",
             response:"g-recaptcha-response"

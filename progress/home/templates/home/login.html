@@ -13,7 +13,7 @@
 	<div class="alert alert-danger login-alert" role="alert">{{error_message}}</div>
 {% endif %}
 
-<form class="form-signin" action="{% url 'home:login' %}" method="POST">
+<form class="form-signin" action="{% url 'home:login' %}" method="POST" onsubmit="return botOrNot()">
 	{% csrf_token %}
 	<div class="form-group">
 		<label class="control-label" for="login">{% trans "Логин" %}</label>
