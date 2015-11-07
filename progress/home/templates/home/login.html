@@ -10,7 +10,8 @@
 </div>
 
 {% if error_message %}
-	<div class="alert alert-danger login-alert" role="alert">{{error_message}}</div>
+	<div class="alert alert-danger login-alert" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+{{error_message}}</div>
 {% endif %}
 
 <form class="form-signin" action="{% url 'home:login' %}" method="POST">
