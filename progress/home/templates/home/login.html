@@ -6,11 +6,12 @@
 {% block main %}
 
 <div class="page-header">
-	<h2 class="col-lg-offset-1">{% trans "Вход в систему" %}</h2>
+	<h3 class="col-lg-offset-1">{% trans "Вход в систему" %}</h3>
 </div>
 
 {% if error_message %}
-	<div class="alert alert-danger login-alert" role="alert">{{error_message}}</div>
+	<div class="alert alert-danger login-alert" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+{{error_message}}</div>
 {% endif %}
 
 <form class="form-signin" action="{% url 'home:login' %}" method="POST">

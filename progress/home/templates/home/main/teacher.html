@@ -5,9 +5,11 @@
 
 {% block teacher %}
 	<span> {{ user.teacher.name }} {{ user.teacher.surname }}</span>
-	<fieldset>
-		<legend>{% trans "Предметы" %}</legend>
-		<ul class='outer'>
+	
+		<div class="page-header">
+			<h3>{% trans "Предметы" %}</h3>
+		</div>
+		<ul>
 			{% for subject in subjects %}
 				<li>
 					{{subject.name}}
@@ -25,10 +27,10 @@
 				</li>
 			{% endfor %}
 		</ul>
-	</fieldset>
 
-	<fieldset>
-		<legend>{% trans "Работы" %}</legend>
+		<div class="page-header">
+			<h3>{% trans "Работы" %}</h3>
+		</div>
 			<ul class='outer'>
 				{% for subject in subjects %}
 					<li>
@@ -90,7 +92,9 @@
 				{% endfor %}
 			</ul>
 
-			<label>{% trans "Предмет" %}</label>
+		<div class="page-header">
+			<h3>{% trans "Добавить предмет" %}</h3>
+		</div>
 			<select id='subject'>
 				{% for subject in subjects %}
 					<option value='{{subject.id}}'>{{subject.name}}</option>
@@ -121,5 +125,4 @@
 				{% trans "так как они используются в таблцие" %}
 			</span>
 
-	</fieldset>
 {% endblock teacher %}

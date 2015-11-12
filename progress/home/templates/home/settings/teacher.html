@@ -2,11 +2,13 @@
 {% load i18n %}
 
 {% block teacher %}
-	<fieldset>
-		<legend>{% trans "Предметы" %}</legend>
+		<div class="page-header">
+			<h3>{% trans "Предметы" %}</h3>
+		</div>
 		{% for subject in subjects %}
 			<label>
 				<input type='checkbox'
+						onclick="return false", 
 						id='{{subject.id}}'
 						{% if subject in user.teacher.subjects.all %}
 							checked
@@ -20,23 +22,51 @@
 
 				$('input#{{subject.id}}').on('click',function(e){
 
-					confirmationMessage = '{% trans "Удалить этот предмет из преподаваемых? У каждого вашего студента так же удалится информация о том, что они изучают его!" %}'
-
-					if (!$(this).is(':checked')) {
-						if (!confirm(confirmationMessage,{{subject.id}})){
-							$(this).prop('checked',true)
-							return;
-						}
+					if ($(this).is(':checked')) {
+						toggleTeacherSubjectRecord(
+							{% url 'home:settings' %},							{# link for ajax request #}
+							{{subject.id}},										{# subject id #}
+							true
+						)
+						$(this).checked(false)
+					} else {
+						$('#deleting-subject-modal').modal('show');
+						$('#confirm-deleting-subject-button').click(function() {
+							$('#deleting-subject-modal').modal('hide');
+							toggleTeacherSubjectRecord(
+								{% url 'home:settings' %},							{# link for ajax request #}
+								{{subject.id}},										{# subject id #}
+								false
+							)
+							$(this).checked(true)
+						})
 					}
-
-					toggleTeacherSubjectRecord(
-						{% url 'home:settings' %},							{# link for ajax request #}
-						{{subject.id}},										{# subject id #}
-						$(this).is(':checked')
-					)
 				})
 			</script>
 		{% endfor %}
-	</fieldset>
+
+		<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#deleting-subject-modal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="deleting-subject-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cancel"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Подтвердить изменение?" %}</h4>
+      </div>
+      <div class="modal-body">
+        {% trans "Удалить этот предмет из преподаваемых? У каждого вашего студента так же удалится информация о том, что они изучают его!" %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Отменить" %}</button>
+        <button type="button" class="btn btn-primary" id="confirm-deleting-subject-button">{% trans "Подтвердить" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
