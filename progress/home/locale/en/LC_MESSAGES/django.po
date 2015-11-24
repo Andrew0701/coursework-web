@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-29 18:09+0300\n"
+"POT-Creation-Date: 2015-11-12 21:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,242 +17,310 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: home/templates/home/base.html:22 home/templates/home/main.html:5
+#: home/templates/home/base.html:40 home/templates/home/main/base.html:5
 msgid "Главная"
 msgstr "Main"
 
-#: home/templates/home/base.html:23 home/templates/home/settings.html:5
+#: home/templates/home/base.html:42 home/templates/home/settings/base.html:5
 msgid "Настройки"
 msgstr "Settings"
 
-#: home/templates/home/base.html:24
+#: home/templates/home/base.html:44
 msgid "Статистика"
-msgstr ""
+msgstr "Statistics"
 
-#: home/templates/home/base.html:27
+#: home/templates/home/base.html:50
 msgid "Выйти"
 msgstr "Log out"
 
-#: home/templates/home/base.html:32 home/templates/home/login.html:4
-#: home/templates/home/login.html.py:17
+#: home/templates/home/base.html:52 home/templates/home/login.html:4
+#: home/templates/home/login.html.py:30
 msgid "Войти"
 msgstr "Log in"
 
-#: home/templates/home/base.html:33 home/templates/home/reg-success.html:4
-#: home/templates/home/reg.html:5 home/templates/home/reg.html.py:17
+#: home/templates/home/base.html:53 home/templates/home/reg/base.html:5
+#: home/templates/home/reg/base.html:15 home/templates/home/reg/success.html:4
 msgid "Регистрация"
 msgstr "Sign up"
 
-#: home/templates/home/base.html:47
+#: home/templates/home/base.html:77
 msgid "Выберите язык"
 msgstr "Choose language"
 
-#: home/templates/home/login.html:11
+#: home/templates/home/login.html:9
 msgid "Вход в систему"
 msgstr "Logging in"
 
-#: home/templates/home/login.html:15 home/templates/home/reg-student.html:5
-#: home/templates/home/reg-teacher.html:5
+#: home/templates/home/login.html:19 home/templates/home/reg/student.html:5
+#: home/templates/home/reg/student.html:7
+#: home/templates/home/reg/teacher.html:5
 msgid "Логин"
 msgstr "Login"
 
-#: home/templates/home/login.html:16 home/templates/home/reg-student.html:32
-#: home/templates/home/reg-teacher.html:20
+#: home/templates/home/login.html:23 home/templates/home/reg/student.html:43
+#: home/templates/home/reg/teacher.html:20
 msgid "Пароль"
 msgstr "Password"
 
-#: home/templates/home/reg-student.html:8
-#: home/templates/home/reg-teacher.html:8
-msgid "E-mail"
-msgstr "E-mail"
-
-#: home/templates/home/reg-student.html:11
-#: home/templates/home/reg-teacher.html:11
-msgid "Фамилия"
-msgstr "Surname"
-
-#: home/templates/home/reg-student.html:14
-#: home/templates/home/reg-teacher.html:14
-msgid "Имя"
-msgstr "Name"
-
-#: home/templates/home/reg-student.html:17
-#: home/templates/home/reg-teacher.html:17
-msgid "Отчество"
-msgstr "Patronymic"
-
-#: home/templates/home/reg-student.html:21
-msgid "Курс"
-msgstr "Course"
-
-#: home/templates/home/reg-student.html:27
-#: home/templates/home/register.html:17
-msgid "Группа"
-msgstr "Group"
-
-#: home/templates/home/reg-student.html:36
-#: home/templates/home/reg-teacher.html:24
-#: home/templates/home/settings.html:35
-msgid "Повторить пароль"
-msgstr "Repeat password"
-
-#: home/templates/home/reg-student.html:40
-#: home/templates/home/reg-teacher.html:28
-msgid "Зарегистрироваться"
-msgstr "Sign up"
-
-#: home/templates/home/reg.html:19
-msgid "Студент"
-msgstr "Student"
-
-#: home/templates/home/reg.html:21
-msgid "Преподаватель"
-msgstr "Teacher"
-
-#: home/templates/home/register.html:16
-msgid "Ведомость по дисциплине"
-msgstr "Register for subject"
-
-#: home/templates/home/settings.html:31
-msgid "Изменить пароль"
-msgstr "Change password"
-
-#: home/templates/home/settings.html:33
-msgid "Старый пароль"
-msgstr "Old password"
-
-#: home/templates/home/settings.html:34
-msgid "Новый пароль"
-msgstr "New password"
-
-#: home/templates/home/settings.html:36
-msgid "Изменить"
-msgstr "Change"
-
-#: home/templates/home/student-main.html:8
-#: home/templates/home/student-settings.html:7
-#: home/templates/home/teacher-main.html:9
-#: home/templates/home/teacher-settings.html:6
+#: home/templates/home/main/student.html:11
+#: home/templates/home/main/teacher.html:9
+#: home/templates/home/settings/student.html:7
+#: home/templates/home/settings/teacher.html:6
 msgid "Предметы"
 msgstr "Subjects"
 
-#: home/templates/home/student-main.html:19
-#: home/templates/home/teacher-main.html:36
+#: home/templates/home/main/student.html:24
+#: home/templates/home/main/teacher.html:31
 msgid "Работы"
 msgstr "Jobs"
 
-#: home/templates/home/teacher-main.html:51
+#: home/templates/home/main/teacher.html:67
 msgid "Изменть название"
 msgstr "Edit name"
 
-#: home/templates/home/teacher-main.html:66
+#: home/templates/home/main/teacher.html:75
 msgid "Изменть краткое название"
 msgstr "Edit short name"
 
-#: home/templates/home/teacher-main.html:78
+#: home/templates/home/main/teacher.html:83
 msgid "Удалить"
 msgstr "Delete"
 
-#: home/templates/home/teacher-main.html:91
+#: home/templates/home/main/teacher.html:93
 msgid "Предмет"
 msgstr "Subject"
 
-#: home/templates/home/teacher-main.html:98
+#: home/templates/home/main/teacher.html:100
 msgid "Название"
 msgstr "Name"
 
-#: home/templates/home/teacher-main.html:100
-#: home/templates/home/teacher-main.html:118
+#: home/templates/home/main/teacher.html:102
+#: home/templates/home/main/teacher.html:120
 msgid "Кратко"
 msgstr "Shortly"
 
-#: home/templates/home/teacher-main.html:101
+#: home/templates/home/main/teacher.html:103
 msgid "Например Лаб.3"
 msgstr "E.g. Lab.3"
 
-#: home/templates/home/teacher-main.html:102
+#: home/templates/home/main/teacher.html:104
 msgid "Добавить"
 msgstr "Add"
 
-#: home/templates/home/teacher-main.html:117
+#: home/templates/home/main/teacher.html:119
 msgid "Рекомендуется заполнить все поля"
 msgstr "It is highly recommended to fill all fields"
 
-#: home/templates/home/teacher-main.html:119
+#: home/templates/home/main/teacher.html:121
 msgid "так как они используются в таблцие"
 msgstr "because they used in register table"
 
-#: home/templates/home/teacher-settings.html:23
+#: home/templates/home/reg/base.html:18
+msgid "Студент"
+msgstr "Student"
+
+#: home/templates/home/reg/base.html:20
+msgid "Преподаватель"
+msgstr "Teacher"
+
+#: home/templates/home/reg/student.html:10
+#: home/templates/home/reg/student.html:12
+#: home/templates/home/reg/teacher.html:8
+#: home/templates/home/reg_firstStep.html:20
+msgid "E-mail"
+msgstr "E-mail"
+
+#: home/templates/home/reg/student.html:15
+#: home/templates/home/reg/student.html:17
+#: home/templates/home/reg/teacher.html:11
+msgid "Фамилия"
+msgstr "Surname"
+
+#: home/templates/home/reg/student.html:21
+#: home/templates/home/reg/student.html:23
+#: home/templates/home/reg/teacher.html:14
+msgid "Имя"
+msgstr "Name"
+
+#: home/templates/home/reg/student.html:27
+#: home/templates/home/reg/student.html:29
+#: home/templates/home/reg/teacher.html:17
+msgid "Отчество"
+msgstr "Patronymic"
+
+#: home/templates/home/reg/student.html:32
+msgid "Курс"
+msgstr "Course"
+
+#: home/templates/home/reg/student.html:38
+#: home/templates/home/register.html:18
+msgid "Группа"
+msgstr "Group"
+
+#: home/templates/home/reg/student.html:47
+#: home/templates/home/reg/teacher.html:24
+#: home/templates/home/settings/base.html:41
+msgid "Повторить пароль"
+msgstr "Repeat password"
+
+#: home/templates/home/reg/student.html:52
+#: home/templates/home/reg/teacher.html:29
+#: home/templates/home/reg_firstStep.html:23
+msgid "Зарегистрироваться"
+msgstr "Sign up"
+
+#: home/templates/home/reg_firstStep.html:5
+#: home/templates/home/reg_firstStep.html:16
+#, fuzzy
+#| msgid "Регистрация"
+msgid "Регистрация: шаг "
+msgstr "Sign up: step"
+
+#: home/templates/home/register.html:17
+msgid "Ведомость по дисциплине"
+msgstr "Register for subject"
+
+#: home/templates/home/register.html:72
+msgid "Оценка"
+msgstr "Mark"
+
+#: home/templates/home/settings/base.html:28
+msgid "Изменить пароль"
+msgstr "Change password"
+
+#: home/templates/home/settings/base.html:33
+msgid "Старый пароль"
+msgstr "Old password"
+
+#: home/templates/home/settings/base.html:37
+msgid "Новый пароль"
+msgstr "New password"
+
+#: home/templates/home/settings/base.html:45
+msgid "Изменить"
+msgstr "Change"
+
+#: home/templates/home/settings/teacher.html:23
 msgid ""
 "Удалить этот предмет из преподаваемых? У каждого вашего студента так же "
 "удалится информация о том, что они изучают его!"
 msgstr "Delete this subject? Each student will lost info they study it!"
 
-#: home/views.py:162 home/views.py:195
+#: home/templates/home/statistics.html:15
+msgid "Сдано работ"
+msgstr "Job passed"
+
+#: home/templates/home/statistics.html:20
+msgid "Осталось сдать"
+msgstr "Jobs left"
+
+#: home/templates/home/statistics.html:25
+msgid "Осталось времени"
+msgstr "Time left"
+
+#: home/templatetags/filters.py:53 home/templatetags/filters.py:59
+msgid "дней"
+msgstr "days"
+
+#: home/templatetags/filters.py:55
+msgid "день"
+msgstr "day"
+
+#: home/templatetags/filters.py:57
+#, fuzzy
+#| msgid "Имя"
+msgid "дня"
+msgstr "days"
+
+#: home/templatetags/filters.py:64 home/templatetags/filters.py:70
+msgid "недель"
+msgstr "weeks"
+
+#: home/templatetags/filters.py:66
+msgid "неделя"
+msgstr "week"
+
+#: home/templatetags/filters.py:68
+msgid "недели"
+msgstr "weeks"
+
+#: home/views.py:220 home/views.py:253
 msgid "Предмет добавлен"
 msgstr "Subject added"
 
-#: home/views.py:171 home/views.py:213
+#: home/views.py:229 home/views.py:271
 msgid "Предмет удален"
 msgstr "Subject deleted"
 
-#: home/views.py:187
+#: home/views.py:245
 msgid "Преподаватель изменен"
 msgstr "Teacher changed"
 
-#: home/views.py:224
+#: home/views.py:282
 msgid "Работа добавлена"
 msgstr "Job added"
 
-#: home/views.py:230
+#: home/views.py:288
 msgid "Работа удалена"
 msgstr "Job deleted"
 
-#: home/views.py:238
+#: home/views.py:296
 msgid "Название изменено"
 msgstr "Name changed"
 
-#: home/views.py:246
+#: home/views.py:304
 msgid "Краткое название изменено"
 msgstr "Short name changed"
 
-#: home/views.py:264 home/views.py:278
+#: home/views.py:322 home/views.py:336
 msgid "Запись добавлена"
 msgstr "Entry added"
 
-#: home/views.py:270
+#: home/views.py:328
 msgid "Запись подтверждена"
 msgstr "Entry confirmed"
 
-#: home/views.py:294 home/views.py:300
+#: home/views.py:352 home/views.py:358
 msgid "Запись удалена"
 msgstr "Entry deleted"
 
-#: home/views.py:312
+#: home/views.py:370
 msgid "Новый пароль установлен"
 msgstr "New password set"
 
-#: home/views.py:317
+#: home/views.py:375
 msgid "Пароли не совпадают"
 msgstr "Passwords doesn't match"
 
-#: home/views.py:322
+#: home/views.py:380
 msgid "Неверный пароль!"
 msgstr "Wrong password!"
 
-#: home/views.py:359
+#: home/views.py:417
+#, fuzzy
+#| msgid "Название изменено"
+msgid "Оценка изменена"
+msgstr "Mark changed"
+
+#: home/views.py:433
+#, fuzzy
+#| msgid "Название изменено"
+msgid "Дата изменена"
+msgstr "Date changed"
+
+#: home/views.py:449
 msgid "Такого предмета нет"
 msgstr "There is no such subject"
 
-#: home/views.py:361
+#: home/views.py:451
 msgid "Этот предмет не актуален в текущем семестре"
 msgstr "There is no such subject in current semester"
 
-#: home/views.py:363
+#: home/views.py:453
 msgid "Такой группы нет"
 msgstr "There is no such group"
 
-#: home/views.py:365
+#: home/views.py:455
 msgid "Эта группа не изучает данный предмет"
 msgstr "This group doesn't learn specified subject"
 
