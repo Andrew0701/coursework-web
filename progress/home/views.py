@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse,HttpRequest,HttpResponseRedirect,QueryDict
+from django.test.client import Client
+
+import urllib3
+
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group as UsersGroup
@@ -72,7 +76,7 @@ def make_plan(jobs_total_count, semester, weeks_statistics):
 
 	first_step_sum = sum(map(lambda x : 0 if x is None else x,plan))
 	diff = jobs_left - first_step_sum
-	
+
 	week_num = next_week_num - 1
 	while diff > 0:
 		plan[week_num] += 1
@@ -83,7 +87,7 @@ def make_plan(jobs_total_count, semester, weeks_statistics):
 	current_week = current_week_of(semester)
 	plan[current_week-1] = weeks_statistics[current_week-1]
 
-	return plan 
+	return plan
 
 def reg(request):
 	#пользователь изменил курс (значение выпадающего списка)
@@ -128,7 +132,7 @@ def reg(request):
 			)
 
 		return render(request,'home/reg/success.html')
-		
+
 	else:
 		#запрос формы регистрации
 		years = set( Group.objects.values_list('year',flat=True) )
@@ -142,23 +146,40 @@ def log_in(request):
 
 	elif request.method == 'POST':
 
-		user = authenticate(
-			username=request.POST['login'],
-			password=request.POST['password']
-		)
-		if user is not None:
-			if user.is_active:
-				login(request,user)
-				return HttpResponseRedirect(reverse('home:main'))
-			else:
-				return render(request, 'home/login.html', {
-					'error_message':'Ваш аккаунт заблокирован'
-					}
-				)
-		return render(request,'home/login.html',{
-			'error_message':'Неверный логин или пароль'
-			}
-		)
+		# url: 'https://www.google.com/recaptcha/api/siteverify'
+		# type: "GET"
+		#
+		# request.POST['g-recaptcha-response']
+		# "6LeqAQ8TAAAAADlYhA7DjH54shULLYVTYHb_q56l"
+
+		url = 'https://www.google.com/recaptcha/api/siteverify?' + \
+				'response='+request.POST['g-recaptcha-response']+ \
+				'&secret=6LeqAQ8TAAAAAD-S6bEsThBycfpjMsf-ph0qYsXF'
+
+		resp = urllib3.PoolManager().request('GET',url)
+		if json.loads(resp.data.decode('utf-8'))['success']:
+			user = authenticate(
+				username=request.POST['login'],
+				password=request.POST['password']
+			)
+			if user is not None:
+				if user.is_active:
+					login(request,user)
+					return HttpResponseRedirect(reverse('home:main'))
+				else:
+					return render(request, 'home/login.html', {
+						'error_message':'Ваш аккаунт заблокирован'
+						}
+					)
+			return render(request,'home/login.html',{
+				'error_message':'Неверный логин или пароль'
+				}
+			)
+		else:
+			return render(request,'home/login.html',{
+				'error_message':'Боты не пройдут!'
+				}
+			)
 
 def log_out(request):
 	if request.user.is_authenticated:
@@ -256,7 +277,7 @@ def settings(request):
 
 				teacher = request.user.teacher
 				subject = Subject.objects.get(pk = request.POST['subjectid'] )
-				
+
 				student_subject_records = Student_Subject.objects.filter(
 					teacher__id = teacher.id,
 					subject__id = subject.id
@@ -391,7 +412,7 @@ def settings(request):
 		current_subjects = get_subjects_of(current_semesters)
 
 		subjects = current_subjects
-			
+
 		if user_is_student:
 			return render(request,'home/settings/student.html',locals())
 
@@ -438,7 +459,7 @@ def register_table(request, short_subject_name, group_name):
 			semester = None
 
 			error_message = ''
-			
+
 			current_semesters = get_current_semesters()
 			current_subjects = get_subjects_of(current_semesters)
 
@@ -491,7 +512,7 @@ def statistics(request,student_id):
 		}
 
 		return HttpResponse(json.dumps(data), content_type='application/json')
-	
-	
+
+
 
 	return render(request,'home/statistics.html',locals())

@@ -8,10 +8,9 @@
 		{% for subject in subjects %}
 			<label>
 				<input type='checkbox'
-						onclick="return false", 
 						id='{{subject.id}}'
 						{% if subject in user.teacher.subjects.all %}
-							checked
+							checked='checked'
 						{% endif %}
 				>
 				{{subject.name}}
@@ -22,25 +21,75 @@
 
 				$('input#{{subject.id}}').on('click',function(e){
 
-					if ($(this).is(':checked')) {
+					var check = $(this);
+
+					if ($(check).is(':checked')) {
 						toggleTeacherSubjectRecord(
 							{% url 'home:settings' %},							{# link for ajax request #}
 							{{subject.id}},										{# subject id #}
 							true
 						)
-						$(this).checked(false)
-					} else {
-						$('#deleting-subject-modal').modal('show');
-						$('#confirm-deleting-subject-button').click(function() {
-							$('#deleting-subject-modal').modal('hide');
+						check.attr('checked','checked')
+					}else{
+						toggleTeacherSubjectRecord(
+							{% url 'home:settings' %},							{# link for ajax request #}
+							{{subject.id}},										{# subject id #}
+							false
+						)
+						check.attr('checked',false)
+					}
+
+					$('#deleting-subject-modal').modal('show');
+					$('#confirm-deleting-subject-button').click(function() {
+						$('#deleting-subject-modal').modal('hide');
+
+						if (check.is(':checked')) {
 							toggleTeacherSubjectRecord(
 								{% url 'home:settings' %},							{# link for ajax request #}
 								{{subject.id}},										{# subject id #}
 								false
 							)
-							$(this).checked(true)
-						})
-					}
+							// check.attr('checked','checked')
+							check.attr('checked',false)
+						}else{
+							toggleTeacherSubjectRecord(
+								{% url 'home:settings' %},							{# link for ajax request #}
+								{{subject.id}},										{# subject id #}
+								true
+							)
+							check.attr('checked','checked')
+							// check.checked = true;
+							// check.removeAttr('checked')
+						}
+						// check.checked = 'checked'
+					})
+
+
+
+
+
+
+
+
+					// if ($(this).is(':checked')) {
+					// 	toggleTeacherSubjectRecord(
+					// 		{% url 'home:settings' %},							{# link for ajax request #}
+					// 		{{subject.id}},										{# subject id #}
+					// 		true
+					// 	)
+					// 	$(this).removeAttr('checked')
+					// } else {
+					// 	$('#deleting-subject-modal').modal('show');
+					// 	$('#confirm-deleting-subject-button').click(function() {
+					// 		$('#deleting-subject-modal').modal('hide');
+					// 		toggleTeacherSubjectRecord(
+					// 			{% url 'home:settings' %},							{# link for ajax request #}
+					// 			{{subject.id}},										{# subject id #}
+					// 			false
+					// 		)
+					// 		$(this).attr('checked','checked')
+					// 	})
+					// }
 				})
 			</script>
 		{% endfor %}
@@ -50,7 +99,7 @@
   Launch demo modal
 </button>
 
-<!-- Modal -->
+<!-- Modal
 <div class="modal fade" id="deleting-subject-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -64,6 +113,23 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Отменить" %}</button>
         <button type="button" class="btn btn-primary" id="confirm-deleting-subject-button">{% trans "Подтвердить" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+<div class="modal fade" id="deleting-subject-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cancel"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Сделано!" %}</h4>
+      </div>
+      <div class="modal-body">
+        {% trans "Можете отменить, если хотите!" %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirm-deleting-subject-button">{% trans "Отменить" %}</button>
       </div>
     </div>
   </div>

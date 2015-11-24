@@ -9,14 +9,14 @@
 	<link href="{% static 'home/css/custom-style.css' %}" rel="stylesheet">
 	<link href="{% static 'home/css/alertify.core.css' %}" rel="stylesheet">
 	<link href="{% static 'home/css/alertify.bootstrap.css' %}" rel="stylesheet">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="icon" href="{% static 'home/logo.ico' %}" type="image/x-icon">
 
 	<title>{% block title %}{% endblock %}</title>
 
 	<script src="{% static 'home/js/jquery-2.1.4.min.js' %}"></script>
 	<script src="{% static 'home/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'home/js/alertify.min.js' %}"></script>
-	
+
 	<script src='https://www.google.com/recaptcha/api.js'></script>
 	<script src="{% static "home/js/botOrNot.js" %}"></script>
 	{% block scripts %}{% endblock %}
